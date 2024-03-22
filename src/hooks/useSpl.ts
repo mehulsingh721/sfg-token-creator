@@ -2,6 +2,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   createCreateMetadataAccountV3Instruction,
+  createRevokeInstruction,
   PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
 import {
@@ -12,6 +13,8 @@ import {
   getAssociatedTokenAddress,
   createAssociatedTokenAccountInstruction,
   createMintToInstruction,
+  AuthorityType,
+  createSetAuthorityInstruction,
 } from "@solana/spl-token";
 import {
   Keypair,
@@ -92,9 +95,61 @@ export const useSpl = () => {
       ),
       createMetadataInstruction
     );
-    await sendTransaction(createNewTokenTransaction, connection, {
-      signers: [mintKeypair],
-    });
+    const signature = await sendTransaction(
+      createNewTokenTransaction,
+      connection,
+      {
+        signers: [mintKeypair],
+      }
+    );
+    return signature;
   };
-  return { createToken };
+
+  const revokeMintAuthority = async (mintAddress: string) => {
+    const mintPublicKey = new PublicKey(mintAddress);
+    const transaction = new Transaction();
+
+    const revokeAuthorityInstruction = createSetAuthorityInstruction(
+      mintPublicKey, // mint
+      publicKey as PublicKey, // newAuthority
+      AuthorityType.MintTokens, // authorityType
+      null, // currentAuthority
+      [], // multiSigners, empty if not using multisig
+      TOKEN_PROGRAM_ID // token program id, usually you can import this from '@solana/spl-token'
+    );
+
+    transaction.add(revokeAuthorityInstruction);
+
+    console.log(transaction);
+    try {
+      const signature = await sendTransaction(transaction, connection);
+      return signature;
+    } catch (error) {
+      console.error("Error revoking mint authority:", error);
+    }
+  };
+
+  const revokeFreezeAuthority = async (mintAddress: string) => {
+    const mintPublicKey = new PublicKey(mintAddress);
+    const transaction = new Transaction();
+
+    const revokeAuthorityInstruction = createSetAuthorityInstruction(
+      mintPublicKey, // mint
+      publicKey as PublicKey, // newAuthority
+      AuthorityType.FreezeAccount, // authorityType
+      null,
+      [], // multiSigners, empty if not using multisig
+      TOKEN_PROGRAM_ID // token program id, usually you can import this from '@solana/spl-token'
+    );
+
+    transaction.add(revokeAuthorityInstruction);
+
+    try {
+      const signature = await sendTransaction(transaction, connection);
+      return signature;
+    } catch (error) {
+      console.error("Error revoking mint authority:", error);
+    }
+  };
+  return { createToken, revokeMintAuthority, revokeFreezeAuthority };
 };
