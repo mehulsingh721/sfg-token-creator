@@ -23,9 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <WalletConnectionProvider>
           <AutoConnectProvider>
-            <AntdRegistry>
-              <MainLayout>{children}</MainLayout>
-            </AntdRegistry>
+            <AntdRegistry>{children}</AntdRegistry>
           </AutoConnectProvider>
         </WalletConnectionProvider>
       </body>

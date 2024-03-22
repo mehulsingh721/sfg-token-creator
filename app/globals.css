@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+* {
+  box-sizing: border-box;
+}
+.wallet-adapter-modal-menu-item{
+  align-items: center;
+}
+
 /* 
 :root {
   --foreground-rgb: 0, 0, 0;
