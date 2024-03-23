@@ -6,7 +6,7 @@ export const checkTransactionConfirmation = async (signature: any) => {
   const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
   // Wait for confirmation
-  const confirmation = connection.confirmTransaction(signature, "confirmed");
+  const confirmation = connection.confirmTransaction(signature, "finalized");
   await toast.promise(confirmation, {
     pending: "Transaction is pending",
     success: "Transaction Successfull",

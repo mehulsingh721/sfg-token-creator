@@ -30,6 +30,7 @@ const CreateForm = ({ open, setOpen }: any) => {
   const { uploadData } = useStorage();
   const { createToken } = useSpl();
   const { setLoader } = useContext(AppContext);
+  const [form] = Form.useForm();
 
   const props: UploadProps = {
     name: "file",
@@ -83,8 +84,9 @@ const CreateForm = ({ open, setOpen }: any) => {
     const signature = await createToken(metadataUrl, tokenInfo);
     checkTransactionConfirmation(signature);
     setLoader({ loading: false, text: "" });
-    setOpen(false);
     setTokenInfo(initialTokenInfo);
+    form.resetFields();
+    setOpen(false);
     return metadataUrl;
   };
 
@@ -99,7 +101,7 @@ const CreateForm = ({ open, setOpen }: any) => {
       width={1000}
       style={{}}
     >
-      <FormLayout handleSubmit={() => handleSubmit()}>
+      <FormLayout form={form} handleSubmit={() => handleSubmit()}>
         <div className="md:flex md:space-x-4 max-h-[65vh] overflow-auto">
           <div className="md:w-6/12">
             <div className="sm:flex sm:space-x-4">
