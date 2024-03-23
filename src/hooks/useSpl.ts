@@ -70,7 +70,7 @@ export const useSpl = () => {
         fromPubkey: publicKey as PublicKey,
         newAccountPubkey: mintKeypair.publicKey,
         space: MINT_SIZE,
-        lamports: lamports,
+        lamports: lamports * 2,
         programId: TOKEN_PROGRAM_ID,
       }),
       createInitializeMintInstruction(
@@ -94,6 +94,7 @@ export const useSpl = () => {
       ),
       createMetadataInstruction
     );
+
     const signature = await sendTransaction(
       createNewTokenTransaction,
       connection,
@@ -109,17 +110,15 @@ export const useSpl = () => {
     const transaction = new Transaction();
 
     const revokeAuthorityInstruction = createSetAuthorityInstruction(
-      mintPublicKey, // mint
-      publicKey as PublicKey, // newAuthority
-      AuthorityType.MintTokens, // authorityType
-      null, // currentAuthority
-      [], // multiSigners, empty if not using multisig
-      TOKEN_PROGRAM_ID // token program id, usually you can import this from '@solana/spl-token'
+      mintPublicKey,
+      publicKey as PublicKey,
+      AuthorityType.MintTokens,
+      null,
+      [],
+      TOKEN_PROGRAM_ID
     );
 
     transaction.add(revokeAuthorityInstruction);
-
-    console.log(transaction);
     try {
       const signature = await sendTransaction(transaction, connection);
       return signature;
@@ -133,12 +132,12 @@ export const useSpl = () => {
     const transaction = new Transaction();
 
     const revokeAuthorityInstruction = createSetAuthorityInstruction(
-      mintPublicKey, // mint
-      publicKey as PublicKey, // newAuthority
-      AuthorityType.FreezeAccount, // authorityType
+      mintPublicKey,
+      publicKey as PublicKey,
+      AuthorityType.FreezeAccount,
       null,
-      [], // multiSigners, empty if not using multisig
-      TOKEN_PROGRAM_ID // token program id, usually you can import this from '@solana/spl-token'
+      [],
+      TOKEN_PROGRAM_ID
     );
 
     transaction.add(revokeAuthorityInstruction);

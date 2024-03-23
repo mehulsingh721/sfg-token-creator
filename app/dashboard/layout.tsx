@@ -24,6 +24,7 @@ import { AppProvider } from "@/src/provider/AppProvider";
 import LoadingOverlay from "./components/Loading/Loading";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppTheme } from "../constants/theme";
 
 const items: MenuProps["items"] = [
   DollarOutlined,
@@ -57,55 +58,73 @@ const links = [
 
 const { Header, Content, Footer, Sider } = Layout;
 const MainLayout = ({ children }: { children: ReactNode }) => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <AppProvider>
-      <ConfigProvider>
+      <ConfigProvider theme={AppTheme}>
         <ThirdwebProvider clientId="9cb2c5a9e53215302c5c7638f3b0cb1c">
           <LoadingOverlay />
           <Layout hasSider>
             <Sider
+              width={250}
               style={{
                 overflow: "auto",
                 height: "100vh",
                 position: "fixed",
+                borderRight: "1px solid rgba(0, 0, 0, 0.1)",
                 left: 0,
                 top: 0,
                 bottom: 0,
               }}
             >
-              {/* <div className="demo-logo-vertical" /> */}
-              <div className="text-white py-5 px-8">Powered By SolanaForge</div>
-              <Menu
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={["4"]}
-                items={links as any}
-              />
+              <div className="flex flex-col justify-between h-full">
+                <div className="">
+                  <div className="py-5 px-8">Powered By SolanaForge</div>
+                  <Menu
+                    mode="inline"
+                    defaultSelectedKeys={["4"]}
+                    items={links as any}
+                    style={{}}
+                  />
+                </div>
+                <div>Footer</div>
+              </div>
             </Sider>
             <Layout
               className="layout"
-              style={{ minHeight: "100vh", marginLeft: 200 }}
+              style={{ minHeight: "100vh", marginLeft: 250 }}
             >
               <Header
-                style={{ paddingInline: "2rem", background: colorBgContainer }}
+                style={{
+                  paddingInline: "2rem",
+                  // background: colorBgContainer,
+                  borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+                }}
               >
-                <Flex justify="space-between" align="center">
+                <Flex
+                  style={{ height: "max-content" }}
+                  justify="space-between"
+                  align="center"
+                >
                   <div></div>
                   <Input
-                    size="large"
+                    size={"middle"}
                     placeholder="large size"
                     style={{
-                      width: "40%",
                       textAlign: "center",
+                      margin: "0",
+                      width: "40%",
                     }}
                     prefix={<SearchOutlined />}
                   />
                   <div>
-                    <WalletMultiButton style={{ backgroundColor: "black" }} />
+                    <WalletMultiButton
+                      style={{
+                        backgroundColor: "black",
+                        padding: "10px 1rem",
+                        fontSize: "14px",
+                        margin: 0,
+                      }}
+                    />
                   </div>
                 </Flex>
               </Header>

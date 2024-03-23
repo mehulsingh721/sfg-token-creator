@@ -14,6 +14,7 @@ const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
   const { revokeFreezeAuthority } = useSpl();
   const { setLoader } = useContext(AppContext);
   const [mintAddress, setMintAddress] = useState("");
+  const [form] = Form.useForm();
 
   const handleSubmit = async () => {
     setLoader({ loading: true, text: "Sending Transaction..." });
@@ -32,7 +33,7 @@ const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
     >
-      <FormLayout handleSubmit={() => handleSubmit()}>
+      <FormLayout form={form} handleSubmit={() => handleSubmit()}>
         <div className="max-h-[65vh] overflow-auto">
           <div className="">
             <div className="">

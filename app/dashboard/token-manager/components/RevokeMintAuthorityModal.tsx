@@ -6,14 +6,14 @@ import { useStorage } from "@/src/hooks/useStorage";
 import FormLayout from "@/src/layout/FormLayout";
 import { AppContext } from "@/src/provider/AppProvider";
 import { checkTransactionConfirmation } from "@/utils/transaction";
-import { PictureOutlined } from "@ant-design/icons";
-import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
+import { Form, Modal } from "antd";
 import { useContext, useState } from "react";
 
 const RevokeMintAuthorityModal = ({ open, setOpen }: any) => {
   const { revokeMintAuthority } = useSpl();
   const [mintAddress, setMintAddress] = useState("");
   const { setLoader } = useContext(AppContext);
+  const [form] = Form.useForm();
 
   const handleSubmit = async () => {
     setLoader({ loading: true, text: "Sending Transaction..." });
@@ -32,7 +32,7 @@ const RevokeMintAuthorityModal = ({ open, setOpen }: any) => {
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
     >
-      <FormLayout handleSubmit={() => handleSubmit()}>
+      <FormLayout form={form} handleSubmit={() => handleSubmit()}>
         <div className="max-h-[65vh] overflow-auto">
           <div className="">
             <div className="">

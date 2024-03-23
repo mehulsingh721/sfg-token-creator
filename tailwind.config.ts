@@ -24,7 +24,9 @@ const config: Config = {
       // success: "#70D32A",s
       // warning: "#FFD000",
       // error: "#dc2626",
+      buttonColorPrimary: "rgba(0, 189, 255, 0.19)",
     },
+
     extend: {
       fontFamily: {
         display: ["Be Vietnam Pro", "ital"],

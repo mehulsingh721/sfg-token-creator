@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 export const checkTransactionConfirmation = async (signature: any) => {
   //   try {
-  const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+  const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
   // Wait for confirmation
   const confirmation = connection.confirmTransaction(signature, "finalized");
