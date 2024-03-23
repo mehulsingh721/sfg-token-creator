@@ -33,7 +33,6 @@ export const useSpl = () => {
       mintKeypair.publicKey,
       publicKey as PublicKey
     );
-
     const createMetadataInstruction = createCreateMetadataAccountV3Instruction(
       {
         metadata: PublicKey.findProgramAddressSync(

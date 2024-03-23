@@ -11,21 +11,22 @@ import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
+const initialTokenInfo = {
+  name: "",
+  symbol: "",
+  decimals: 0,
+  supply: "",
+  description: "",
+  website: "",
+  twitter: "",
+  telegram: "",
+  discord: "",
+};
 const CreateForm = ({ open, setOpen }: any) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [extentions, setExtentions] = useState(false);
   const [file, setFile] = useState(null);
-  const [tokenInfo, setTokenInfo] = useState<any>({
-    name: "",
-    symbol: "",
-    decimals: 0,
-    supply: "",
-    description: "",
-    website: "",
-    twitter: "",
-    telegram: "",
-    discord: "",
-  });
+  const [tokenInfo, setTokenInfo] = useState<any>(initialTokenInfo);
   const { uploadData } = useStorage();
   const { createToken } = useSpl();
   const { setLoader } = useContext(AppContext);
@@ -33,9 +34,10 @@ const CreateForm = ({ open, setOpen }: any) => {
   const props: UploadProps = {
     name: "file",
     multiple: false,
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    // action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
     onChange(info: any) {
       const { status } = info.file;
+      console.log(status);
       if (status !== "uploading") {
       }
       if (status === "done") {
@@ -70,7 +72,9 @@ const CreateForm = ({ open, setOpen }: any) => {
       extensions: {
         telegram: tokenInfo.telegram,
         twitter: tokenInfo.twitter,
+        x: tokenInfo.twitter,
         discord: tokenInfo.discord,
+        website: tokenInfo.website,
       },
     };
     setLoader({ loading: true, text: "Uploading Metadata to IPFS..." });
@@ -79,6 +83,8 @@ const CreateForm = ({ open, setOpen }: any) => {
     const signature = await createToken(metadataUrl, tokenInfo);
     checkTransactionConfirmation(signature);
     setLoader({ loading: false, text: "" });
+    setOpen(false);
+    setTokenInfo(initialTokenInfo);
     return metadataUrl;
   };
 

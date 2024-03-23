@@ -4,18 +4,23 @@ import { Heading5, Text } from "@/src/components/ui/Typography";
 import { useSpl } from "@/src/hooks/useSpl";
 import { useStorage } from "@/src/hooks/useStorage";
 import FormLayout from "@/src/layout/FormLayout";
+import { AppContext } from "@/src/provider/AppProvider";
+import { checkTransactionConfirmation } from "@/utils/transaction";
 import { PictureOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
   const { revokeFreezeAuthority } = useSpl();
+  const { setLoader } = useContext(AppContext);
   const [mintAddress, setMintAddress] = useState("");
 
   const handleSubmit = async () => {
-    console.log(mintAddress);
+    setLoader({ loading: true, text: "Sending Transaction..." });
     const signature = await revokeFreezeAuthority(mintAddress);
-    console.log(signature);
+    checkTransactionConfirmation(signature);
+    setLoader({ loading: false, text: "" });
+    setOpen(false);
   };
 
   return (

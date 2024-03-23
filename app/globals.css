@@ -44,7 +44,7 @@
 }
 
 .text {
-  margin-top: 130px;
+  margin-top: 140px;
   opacity: 0;
   animation: fadeIn 1s ease-out forwards;
   font-size: 20px; /* Increased text size */
