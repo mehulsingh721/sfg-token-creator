@@ -113,6 +113,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                   onChange={(e) => {
                     setTokenInfo({ ...tokenInfo, name: e.target.value });
                   }}
+                  required={true}
                 />
               </div>
               <div className="w-full sm:w-6/12">
@@ -123,6 +124,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                   onChange={(e) => {
                     setTokenInfo({ ...tokenInfo, symbol: e.target.value });
                   }}
+                  required={true}
                 />
               </div>
             </div>
@@ -136,6 +138,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                   onChange={(e) => {
                     setTokenInfo({ ...tokenInfo, decimals: e.target.value });
                   }}
+                  required={true}
                 />
               </div>
               <div className="w-full sm:w-6/12">
@@ -146,6 +149,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                   onChange={(e) => {
                     setTokenInfo({ ...tokenInfo, supply: e.target.value });
                   }}
+                  required={true}
                 />
               </div>
             </div>
@@ -157,11 +161,13 @@ const CreateForm = ({ open, setOpen }: any) => {
                 onChange={(e) => {
                   setTokenInfo({ ...tokenInfo, description: e.target.value });
                 }}
+                required={false}
               />
               <FormUpload
-                label="Description :"
+                label="Token Image :"
                 props={props as any}
                 name="image"
+                required={false}
               />
             </div>
             <div className="flex gap-5 mb-5">
@@ -182,6 +188,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                       onChange={(e) => {
                         setTokenInfo({ ...tokenInfo, website: e.target.value });
                       }}
+                      required={false}
                     />
                   </div>
                   <div className="w-full sm:w-6/12">
@@ -192,6 +199,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                       onChange={(e) => {
                         setTokenInfo({ ...tokenInfo, twitter: e.target.value });
                       }}
+                      required={false}
                     />
                   </div>
                 </div>
@@ -207,6 +215,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                           telegram: e.target.value,
                         });
                       }}
+                      required={false}
                     />
                   </div>
                   <div className="w-full sm:w-6/12">
@@ -220,6 +229,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                           discord: e.target.value,
                         });
                       }}
+                      required={false}
                     />
                   </div>
                 </div>
@@ -233,7 +243,12 @@ const CreateForm = ({ open, setOpen }: any) => {
                 <Image
                   src={imageUrl}
                   alt="Token Image"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    maxHeight: "100%",
+                  }}
                 />
               ) : (
                 // When imageUrl is not available, show placeholder icon and text

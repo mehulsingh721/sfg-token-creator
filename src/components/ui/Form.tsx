@@ -12,6 +12,7 @@ type formType = {
   inputType?: string | "text";
   placeholder?: string;
   onChange?(info: any): void | undefined;
+  required: boolean;
   props?: {
     name: string;
     multiple: boolean;
@@ -26,9 +27,14 @@ export function FormInput({
   name,
   inputType,
   onChange,
+  required,
 }: formType) {
   return (
-    <Form.Item className="" name={name} label={label}>
+    <Form.Item
+      name={name}
+      label={label}
+      rules={[{ required: required, message: `Please input your ${name}!` }]}
+    >
       <Input
         className="p-2"
         placeholder={placeholder}
