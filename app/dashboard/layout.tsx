@@ -1,60 +1,16 @@
 "use client";
 require("@solana/wallet-adapter-react-ui/styles.css");
-import { ReactNode, createElement, useState } from "react";
-import {
-  ConfigProvider,
-  Flex,
-  Input,
-  Layout,
-  Menu,
-  MenuProps,
-  theme,
-} from "antd";
-import {
-  SearchOutlined,
-  DollarOutlined,
-  SendOutlined,
-  BoxPlotOutlined,
-  FireOutlined,
-} from "@ant-design/icons";
+import { ReactNode } from "react";
+import { Breadcrumb, ConfigProvider, Flex, Layout } from "antd";
 import "../globals.css";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { AppProvider } from "@/src/provider/AppProvider";
 import LoadingOverlay from "./components/Loading/Loading";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppTheme } from "../constants/theme";
-
-const items: MenuProps["items"] = [
-  DollarOutlined,
-  SendOutlined,
-  BoxPlotOutlined,
-  FireOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: createElement(icon),
-  label: `nav ${index + 1}`,
-}));
-
-const links = [
-  {
-    icon: createElement(DollarOutlined),
-    label: "Token Manager",
-  },
-  {
-    icon: createElement(SendOutlined),
-    label: "Multisender",
-  },
-  {
-    icon: createElement(BoxPlotOutlined),
-    label: "Liquidity Manager",
-  },
-  {
-    icon: createElement(FireOutlined),
-    label: "Burn",
-  },
-];
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
 
 const { Header, Content, Footer, Sider } = Layout;
 const MainLayout = ({ children }: { children: ReactNode }) => {
@@ -76,18 +32,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                 bottom: 0,
               }}
             >
-              <div className="flex flex-col justify-between h-full">
-                <div className="">
-                  <div className="py-5 px-8">Powered By SolanaForge</div>
-                  <Menu
-                    mode="inline"
-                    defaultSelectedKeys={["4"]}
-                    items={links as any}
-                    style={{}}
-                  />
-                </div>
-                <div>Footer</div>
-              </div>
+              <Sidebar />
             </Sider>
             <Layout
               className="layout"
@@ -96,37 +41,10 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
               <Header
                 style={{
                   paddingInline: "2rem",
-                  // background: colorBgContainer,
                   borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
                 }}
               >
-                <Flex
-                  style={{ height: "max-content" }}
-                  justify="space-between"
-                  align="center"
-                >
-                  <div></div>
-                  <Input
-                    size={"middle"}
-                    placeholder="large size"
-                    style={{
-                      textAlign: "center",
-                      margin: "0",
-                      width: "40%",
-                    }}
-                    prefix={<SearchOutlined />}
-                  />
-                  <div>
-                    <WalletMultiButton
-                      style={{
-                        backgroundColor: "black",
-                        padding: "10px 1rem",
-                        fontSize: "14px",
-                        margin: 0,
-                      }}
-                    />
-                  </div>
-                </Flex>
+                <Navbar />
               </Header>
               <Content
                 style={{
@@ -140,8 +58,17 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
               >
                 {children}
               </Content>
-              <Footer style={{ textAlign: "center" }}>
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+              <Footer
+                style={{
+                  textAlign: "center",
+                  borderTop: "1px solid rgba(0, 0, 0, 0.1)",
+                  color: "#14161E",
+                }}
+              >
+                <p className="">
+                  SolanaForge Token Creator ©{new Date().getFullYear()} Created
+                  by S-Forge Labs
+                </p>
               </Footer>
             </Layout>
           </Layout>
