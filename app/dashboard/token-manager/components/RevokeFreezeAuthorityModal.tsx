@@ -7,6 +7,8 @@ import FormLayout from "@/src/layout/FormLayout";
 import { AppContext } from "@/src/provider/AppProvider";
 import { checkTransactionConfirmation } from "@/utils/transaction";
 import { PictureOutlined } from "@ant-design/icons";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
 import { useContext, useState } from "react";
 
@@ -15,6 +17,7 @@ const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
   const { setLoader } = useContext(AppContext);
   const [mintAddress, setMintAddress] = useState("");
   const [form] = Form.useForm();
+  const { connected } = useWallet();
 
   const handleSubmit = async () => {
     setLoader({ loading: true, text: "Sending Transaction..." });
@@ -43,15 +46,22 @@ const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
                   label="Token Address:"
                   placeholder="Token Address "
                   onChange={(e) => setMintAddress(e.target.value)}
+                  required={true}
                 />
               </div>
             </div>
           </div>
         </div>
         <div className="flex justify-center items-centers">
-          <Form.Item>
-            <ButtonCustom htmlType={"submit"}>Submit</ButtonCustom>
-          </Form.Item>
+          {!connected ? (
+            <WalletMultiButton />
+          ) : (
+            <Form.Item>
+              <ButtonCustom htmlType={"submit"}>
+                Revoke Mint Authority
+              </ButtonCustom>
+            </Form.Item>
+          )}
         </div>
       </FormLayout>
     </Modal>

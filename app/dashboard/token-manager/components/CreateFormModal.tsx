@@ -1,3 +1,4 @@
+require("@solana/wallet-adapter-react-ui/styles.css");
 import ButtonCustom from "@/src/components/ui/Button";
 import { FormInput, FormTextArea, FormUpload } from "@/src/components/ui/Form";
 import { Heading5, Text } from "@/src/components/ui/Typography";
@@ -7,6 +8,8 @@ import FormLayout from "@/src/layout/FormLayout";
 import { AppContext } from "@/src/provider/AppProvider";
 import { checkTransactionConfirmation } from "@/utils/transaction";
 import { PictureOutlined } from "@ant-design/icons";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
@@ -31,6 +34,8 @@ const CreateForm = ({ open, setOpen }: any) => {
   const { createToken } = useSpl();
   const { setLoader } = useContext(AppContext);
   const [form] = Form.useForm();
+  const { connected } = useWallet();
+  console.log(connected);
 
   const props: UploadProps = {
     name: "file",
@@ -261,9 +266,13 @@ const CreateForm = ({ open, setOpen }: any) => {
           </div>
         </div>
         <div className="flex justify-center items-centers">
-          <Form.Item>
-            <ButtonCustom htmlType={"submit"}>Select Wallet</ButtonCustom>
-          </Form.Item>
+          {!connected ? (
+            <WalletMultiButton />
+          ) : (
+            <Form.Item>
+              <ButtonCustom htmlType={"submit"}>Create Token</ButtonCustom>
+            </Form.Item>
+          )}
         </div>
       </FormLayout>
     </Modal>

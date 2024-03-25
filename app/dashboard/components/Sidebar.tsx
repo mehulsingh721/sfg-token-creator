@@ -63,12 +63,37 @@ const Sidebar = () => {
           justifyContent: "space-between",
           fontSize: "1.2rem",
           lineHeight: 0,
+          textDecoration: "none",
         }}
       >
-        <FontAwesomeIcon icon={faXTwitter} />
-        <FontAwesomeIcon icon={faTelegram} />
-        <FontAwesomeIcon icon={faGlobe} />
-        <FontAwesomeIcon icon={faDiscord} />
+        <a
+          href="https://twitter.com/Solana_Forge"
+          className="text-black"
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faXTwitter} />
+        </a>
+        <a
+          href="https://t.me/solana_forge"
+          target="_blank"
+          className="text-black"
+        >
+          <FontAwesomeIcon icon={faTelegram} />
+        </a>
+        <a
+          href="https://discord.gg/DbAPcswG"
+          target="_blank"
+          className="text-black"
+        >
+          <FontAwesomeIcon icon={faDiscord} />
+        </a>
+        <a
+          href="https://solanaforge.dev"
+          target="_blank"
+          className="text-black"
+        >
+          <FontAwesomeIcon icon={faGlobe} />
+        </a>
       </Footer>
     </div>
   );

@@ -1,3 +1,4 @@
+require("@solana/wallet-adapter-react-ui/styles.css");
 import { Breadcrumb, Flex } from "antd";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { usePathname } from "next/navigation";

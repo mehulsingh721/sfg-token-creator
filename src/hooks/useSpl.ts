@@ -70,7 +70,7 @@ export const useSpl = () => {
         fromPubkey: publicKey as PublicKey,
         newAccountPubkey: mintKeypair.publicKey,
         space: MINT_SIZE,
-        lamports: lamports * 2,
+        lamports: lamports * 10,
         programId: TOKEN_PROGRAM_ID,
       }),
       createInitializeMintInstruction(
