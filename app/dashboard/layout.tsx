@@ -1,6 +1,6 @@
 "use client";
 require("@solana/wallet-adapter-react-ui/styles.css");
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Breadcrumb, ConfigProvider, Flex, Layout } from "antd";
 import "../globals.css";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
@@ -14,6 +14,27 @@ import Navbar from "./components/Navbar";
 
 const { Header, Content, Footer, Sider } = Layout;
 const MainLayout = ({ children }: { children: ReactNode }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
+
+  const checkScreenSize = () => {
+    if (window.innerWidth <= 768) {
+      // 768px is a common breakpoint for iPad and mobile devices
+      setCollapsed(true);
+      setHamburgerOpen(true);
+    } else {
+      setCollapsed(false);
+      setHamburgerOpen(false);
+    }
+  };
+
+  // Add event listener on component mount and remove on unmount
+  useEffect(() => {
+    checkScreenSize(); // Check initially on mount
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   return (
     <AppProvider>
       <ConfigProvider theme={AppTheme}>
@@ -21,6 +42,9 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
           <LoadingOverlay />
           <Layout hasSider>
             <Sider
+              collapsed={collapsed}
+              trigger={null}
+              collapsible
               width={250}
               style={{
                 overflow: "auto",
@@ -32,12 +56,14 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                 bottom: 0,
               }}
             >
-              <Sidebar />
+              <Sidebar
+                hamburger={hamburgerOpen}
+                setHamburger={setHamburgerOpen}
+                open={collapsed}
+                setOpen={setCollapsed}
+              />
             </Sider>
-            <Layout
-              className="layout"
-              style={{ minHeight: "100vh", marginLeft: 250 }}
-            >
+            <Layout className="layout" style={{ minHeight: "100vh" }}>
               <Header
                 style={{
                   paddingInline: "2rem",

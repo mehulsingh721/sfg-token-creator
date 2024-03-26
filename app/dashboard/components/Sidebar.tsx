@@ -14,11 +14,14 @@ import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "antd";
 import { Footer } from "antd/es/layout/layout";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
+import Logo from "../../../src/assets/SF_Logo Dark.svg";
+import HamburgerIcon from "./Hamburger";
 
-const Sidebar = () => {
+const Sidebar = ({ hamburger, setHamburger, open, setOpen }: any) => {
   const pathname = usePathname();
   const [selectedItem, setSelectedItem] = useState("");
 
@@ -37,7 +40,17 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="">
-        <div className="py-5 px-8">Powered By SolanaForge</div>
+        <div className="py-4 font-medium px-8 text-sm">
+          <div className="flex items-center gap-5">
+            {hamburger && <HamburgerIcon open={open} setOpen={setOpen} />}
+            {!open && (
+              <div>
+                <span>Powered By</span>
+                <Image src={Logo} height={150} width={200} alt="flkdjfd" />
+              </div>
+            )}
+          </div>
+        </div>
         <Menu mode="inline" defaultSelectedKeys={[selectedItem]}>
           <Menu.Item icon={<DollarOutlined />} key={"1"}>
             <Link href={"/dashboard/token-manager"}>Token Manager</Link>
