@@ -2,6 +2,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   createCreateMetadataAccountV3Instruction,
+  createRevokeInstruction,
   PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
 import {
@@ -12,13 +13,18 @@ import {
   getAssociatedTokenAddress,
   createAssociatedTokenAccountInstruction,
   createMintToInstruction,
+  AuthorityType,
+  createSetAuthorityInstruction,
 } from "@solana/spl-token";
 import {
   Keypair,
+  LAMPORTS_PER_SOL,
   PublicKey,
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
+import { ADMIN_WALLET, MINT_FEES } from "@/app/constants/app";
+import { toast } from "react-toastify";
 
 export const useSpl = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
@@ -30,7 +36,6 @@ export const useSpl = () => {
       mintKeypair.publicKey,
       publicKey as PublicKey
     );
-
     const createMetadataInstruction = createCreateMetadataAccountV3Instruction(
       {
         metadata: PublicKey.findProgramAddressSync(
@@ -90,11 +95,71 @@ export const useSpl = () => {
         publicKey as PublicKey,
         tokenInfo.supply * Math.pow(10, tokenInfo.decimals)
       ),
-      createMetadataInstruction
+      createMetadataInstruction,
+      SystemProgram.transfer({
+        fromPubkey: publicKey as PublicKey,
+        toPubkey: ADMIN_WALLET,
+        lamports: MINT_FEES * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
+      })
     );
-    await sendTransaction(createNewTokenTransaction, connection, {
-      signers: [mintKeypair],
-    });
+
+    try {
+      const signature = await sendTransaction(
+        createNewTokenTransaction,
+        connection,
+        {
+          signers: [mintKeypair],
+        }
+      );
+      return signature;
+    } catch (err: any) {
+      throw new err.message();
+    }
   };
-  return { createToken };
+
+  const revokeMintAuthority = async (mintAddress: string) => {
+    const mintPublicKey = new PublicKey(mintAddress);
+    const transaction = new Transaction();
+
+    const revokeAuthorityInstruction = createSetAuthorityInstruction(
+      mintPublicKey,
+      publicKey as PublicKey,
+      AuthorityType.MintTokens,
+      null,
+      [],
+      TOKEN_PROGRAM_ID
+    );
+
+    transaction.add(revokeAuthorityInstruction);
+    try {
+      const signature = await sendTransaction(transaction, connection);
+      return signature;
+    } catch (error) {
+      console.error("Error revoking mint authority:", error);
+    }
+  };
+
+  const revokeFreezeAuthority = async (mintAddress: string) => {
+    const mintPublicKey = new PublicKey(mintAddress);
+    const transaction = new Transaction();
+
+    const revokeAuthorityInstruction = createSetAuthorityInstruction(
+      mintPublicKey,
+      publicKey as PublicKey,
+      AuthorityType.FreezeAccount,
+      null,
+      [],
+      TOKEN_PROGRAM_ID
+    );
+
+    transaction.add(revokeAuthorityInstruction);
+
+    try {
+      const signature = await sendTransaction(transaction, connection);
+      return signature;
+    } catch (error) {
+      console.error("Error revoking mint authority:", error);
+    }
+  };
+  return { createToken, revokeMintAuthority, revokeFreezeAuthority };
 };

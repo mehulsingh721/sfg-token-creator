@@ -3,24 +3,24 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-ant-design";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  TorusWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 const WalletConnectionProvider = ({ children }: any) => {
-  const endpoint = useMemo(() => "https://api.devnet.solana.com", []);
-
+  const network =
+    "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909";
+  const endpoint = useMemo(
+    () =>
+      "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909",
+    [network]
+  );
   const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new TorusWalletAdapter(),
-    ],
-    []
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter({ network })],
+    [network]
   );
 
   return (

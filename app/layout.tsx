@@ -5,6 +5,8 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import MainLayout from "@/src/layout/MainLayout";
 import WalletConnectionProvider from "@/src/provider/WalletConnectionProvider";
 import { AutoConnectProvider } from "@/src/provider/AutoConnectProvider";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <WalletConnectionProvider>
           <AutoConnectProvider>
-            <AntdRegistry>
-              <MainLayout>{children}</MainLayout>
-            </AntdRegistry>
+            <AntdRegistry>{children}</AntdRegistry>
           </AutoConnectProvider>
         </WalletConnectionProvider>
       </body>
