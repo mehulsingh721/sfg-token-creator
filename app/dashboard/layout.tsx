@@ -85,9 +85,10 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                   textAlign: "center",
                   borderTop: "1px solid rgba(0, 0, 0, 0.1)",
                   color: "#14161E",
+                  paddingInline: "0",
                 }}
               >
-                <p className="">
+                <p className="text-xs 2xl:text-sm">
                   SolanaForge Token Creator ©{new Date().getFullYear()} Created
                   by S-Forge Labs
                 </p>

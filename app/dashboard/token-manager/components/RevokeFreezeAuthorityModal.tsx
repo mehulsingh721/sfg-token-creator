@@ -58,7 +58,7 @@ const RevokeFreezeAuthorityModal = ({ open, setOpen }: any) => {
           ) : (
             <Form.Item>
               <ButtonCustom htmlType={"submit"}>
-                Revoke Mint Authority
+                Revoke Freeze Authority
               </ButtonCustom>
             </Form.Item>
           )}

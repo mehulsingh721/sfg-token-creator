@@ -68,31 +68,36 @@ const CreateForm = ({ open, setOpen }: any) => {
   };
 
   const handleSubmit = async () => {
-    setLoader({ loading: true, text: "Uploading Image to IPFS..." });
-    const imageUrl = await uploadData(file);
-    const metadata = {
-      name: tokenInfo.name,
-      symbol: tokenInfo.symbol,
-      description: tokenInfo.description,
-      image: imageUrl,
-      extensions: {
-        telegram: tokenInfo.telegram,
-        twitter: tokenInfo.twitter,
-        x: tokenInfo.twitter,
-        discord: tokenInfo.discord,
-        website: tokenInfo.website,
-      },
-    };
-    setLoader({ loading: true, text: "Uploading Metadata to IPFS..." });
-    const metadataUrl = await uploadData(metadata);
-    setLoader({ loading: true, text: "Sending Transaction..." });
-    const signature = await createToken(metadataUrl, tokenInfo);
-    checkTransactionConfirmation(signature);
-    setLoader({ loading: false, text: "" });
-    setTokenInfo(initialTokenInfo);
-    form.resetFields();
-    setOpen(false);
-    return metadataUrl;
+    try {
+      setLoader({ loading: true, text: "Uploading Image to IPFS..." });
+      const imageUrl = await uploadData(file);
+      const metadata = {
+        name: tokenInfo.name,
+        symbol: tokenInfo.symbol,
+        description: tokenInfo.description,
+        image: imageUrl,
+        extensions: {
+          telegram: tokenInfo.telegram,
+          twitter: tokenInfo.twitter,
+          x: tokenInfo.twitter,
+          discord: tokenInfo.discord,
+          website: tokenInfo.website,
+        },
+      };
+      setLoader({ loading: true, text: "Uploading Metadata to IPFS..." });
+      const metadataUrl = await uploadData(metadata);
+      setLoader({ loading: true, text: "Sending Transaction..." });
+      const signature = await createToken(metadataUrl, tokenInfo);
+      checkTransactionConfirmation(signature);
+      setLoader({ loading: false, text: "" });
+      setTokenInfo(initialTokenInfo);
+      form.resetFields();
+      setOpen(false);
+      setImageUrl(null);
+      return metadataUrl;
+    } catch (err) {
+      setLoader({ loading: false, text: "" });
+    }
   };
 
   return (
@@ -102,7 +107,12 @@ const CreateForm = ({ open, setOpen }: any) => {
       footer={null}
       open={open}
       onOk={() => setOpen(false)}
-      onCancel={() => setOpen(false)}
+      onCancel={() => {
+        setOpen(false);
+        setTokenInfo(initialTokenInfo);
+        setImageUrl(null);
+        form.resetFields();
+      }}
       width={1000}
       style={{}}
     >
@@ -151,6 +161,7 @@ const CreateForm = ({ open, setOpen }: any) => {
                   name={"supply"}
                   label="Supply :"
                   placeholder="Put your "
+                  inputType="number"
                   onChange={(e) => {
                     setTokenInfo({ ...tokenInfo, supply: e.target.value });
                   }}

@@ -18,10 +18,13 @@ import {
 } from "@solana/spl-token";
 import {
   Keypair,
+  LAMPORTS_PER_SOL,
   PublicKey,
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
+import { ADMIN_WALLET, MINT_FEES } from "@/app/constants/app";
+import { toast } from "react-toastify";
 
 export const useSpl = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
@@ -70,7 +73,7 @@ export const useSpl = () => {
         fromPubkey: publicKey as PublicKey,
         newAccountPubkey: mintKeypair.publicKey,
         space: MINT_SIZE,
-        lamports: lamports * 200,
+        lamports: lamports,
         programId: TOKEN_PROGRAM_ID,
       }),
       createInitializeMintInstruction(
@@ -92,17 +95,26 @@ export const useSpl = () => {
         publicKey as PublicKey,
         tokenInfo.supply * Math.pow(10, tokenInfo.decimals)
       ),
-      createMetadataInstruction
+      createMetadataInstruction,
+      SystemProgram.transfer({
+        fromPubkey: publicKey as PublicKey,
+        toPubkey: ADMIN_WALLET,
+        lamports: MINT_FEES * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
+      })
     );
 
-    const signature = await sendTransaction(
-      createNewTokenTransaction,
-      connection,
-      {
-        signers: [mintKeypair],
-      }
-    );
-    return signature;
+    try {
+      const signature = await sendTransaction(
+        createNewTokenTransaction,
+        connection,
+        {
+          signers: [mintKeypair],
+        }
+      );
+      return signature;
+    } catch (err: any) {
+      throw new err.message();
+    }
   };
 
   const revokeMintAuthority = async (mintAddress: string) => {
