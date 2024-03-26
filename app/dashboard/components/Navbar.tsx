@@ -26,16 +26,19 @@ const Navbar = () => {
       justify="space-between"
       align="center"
     >
-      <Breadcrumb
-        items={[
-          {
-            title: "Dashboard",
-          },
-          {
-            title: pagename,
-          },
-        ]}
-      />
+      <div>
+        <Breadcrumb
+          className="hidden md:block"
+          items={[
+            {
+              title: "Dashboard",
+            },
+            {
+              title: pagename,
+            },
+          ]}
+        />
+      </div>
 
       <div className="flex items-center">
         {/* <Input

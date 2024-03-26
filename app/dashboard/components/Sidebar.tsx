@@ -72,12 +72,15 @@ const Sidebar = ({ hamburger, setHamburger, open, setOpen }: any) => {
           textAlign: "center",
           borderTop: "1px solid rgba(0, 0, 0, 0.1)",
           color: "#14161E",
-          display: "flex",
-          justifyContent: "space-between",
           fontSize: "1.2rem",
           lineHeight: 0,
           textDecoration: "none",
+          width: "100%",
+          paddingInline: 30,
         }}
+        className={`flex justify-between ${
+          open && "flex-col"
+        } items-center gap-5`}
       >
         <a
           href="https://twitter.com/Solana_Forge"

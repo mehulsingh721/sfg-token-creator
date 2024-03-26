@@ -19,10 +19,10 @@ const TokenManager = () => {
   //
   return (
     <>
-      <div className="flex gap-10">
+      <div className="flex gap-10 flex-wrap items-center justify-center">
         <div>
           <ActionCard
-            icon={<PlusOutlined style={{ fontSize: "48px" }} />}
+            icon={<PlusOutlined className="sm:text-[38px] 2xl:text-[48px]" />}
             title={"Create Token"}
             action={() => setCreateFormOpen(true)}
           />
@@ -30,7 +30,9 @@ const TokenManager = () => {
         </div>
         <div>
           <ActionCard
-            icon={<PlusCircleOutlined style={{ fontSize: "48px" }} />}
+            icon={
+              <PlusCircleOutlined className="sm:text-[38px] 2xl:text-[48px]" />
+            }
             title={"Revoke Mint Authority"}
             action={() => setMintRevokeOpen(true)}
           />
@@ -41,7 +43,7 @@ const TokenManager = () => {
         </div>
         <div>
           <ActionCard
-            icon={<StopOutlined style={{ fontSize: "48px" }} />}
+            icon={<StopOutlined className="sm:text-[38px] 2xl:text-[48px]" />}
             title={"Revoke Freeze Authority"}
             action={() => setFreezeRevokeOpen(true)}
           />

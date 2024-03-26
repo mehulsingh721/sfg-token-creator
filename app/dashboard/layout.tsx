@@ -18,7 +18,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
   const checkScreenSize = () => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1024) {
       // 768px is a common breakpoint for iPad and mobile devices
       setCollapsed(true);
       setHamburgerOpen(true);
@@ -40,20 +40,14 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       <ConfigProvider theme={AppTheme}>
         <ThirdwebProvider clientId="9cb2c5a9e53215302c5c7638f3b0cb1c">
           <LoadingOverlay />
-          <Layout hasSider>
+          <Layout style={{ maxHeight: "100vh" }} hasSider>
             <Sider
               collapsed={collapsed}
-              trigger={null}
-              collapsible
               width={250}
               style={{
-                overflow: "auto",
-                height: "100vh",
-                position: "fixed",
+                overflow: "hidden",
+                maxHeight: "100vh",
                 borderRight: "1px solid rgba(0, 0, 0, 0.1)",
-                left: 0,
-                top: 0,
-                bottom: 0,
               }}
             >
               <Sidebar
@@ -68,6 +62,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                 style={{
                   paddingInline: "2rem",
                   borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+                  width: "100%",
                 }}
               >
                 <Navbar />
@@ -75,14 +70,15 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
               <Content
                 style={{
                   margin: "24px 16px 0",
-                  overflow: "initial",
+                  overflow: "auto",
+                  padding: "2rem 0",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  flexDirection: "column",
+                  flexWrap: "wrap",
                 }}
               >
-                {children}
+                <div>{children}</div>
               </Content>
               <Footer
                 style={{
