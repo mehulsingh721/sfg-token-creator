@@ -36,7 +36,8 @@
     "react-dom": "^18",
     "react-loading-spin": "^2.1.9",
     "react-lottie": "^1.2.4",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",

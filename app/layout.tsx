@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import MainLayout from "@/src/layout/MainLayout";
 import WalletConnectionProvider from "@/src/provider/WalletConnectionProvider";
 import { AutoConnectProvider } from "@/src/provider/AutoConnectProvider";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
