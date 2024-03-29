@@ -18,7 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
-import Logo from "../../../src/assets/SF_Logo Dark.svg";
+import Logo from "../../../src/assets/NEW_Logo_Dark.svg";
 import HamburgerIcon from "./Hamburger";
 
 const Sidebar = ({ hamburger, setHamburger, open, setOpen }: any) => {
