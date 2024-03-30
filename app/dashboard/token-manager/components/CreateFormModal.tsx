@@ -35,7 +35,6 @@ const CreateForm = ({ open, setOpen }: any) => {
   const { setLoader } = useContext(AppContext);
   const [form] = Form.useForm();
   const { connected } = useWallet();
-  console.log(connected);
 
   const props: UploadProps = {
     name: "file",
