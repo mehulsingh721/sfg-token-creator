@@ -3,7 +3,10 @@ import { toast } from "react-toastify";
 
 export const checkTransactionConfirmation = async (signature: any) => {
   //   try {
-  const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
+  const connection = new Connection(
+    "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909",
+    "confirmed"
+  );
 
   // Wait for confirmation
   const confirmation = connection.confirmTransaction(signature, "confirmed");
