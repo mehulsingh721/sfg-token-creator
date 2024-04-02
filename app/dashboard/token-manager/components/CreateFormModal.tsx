@@ -65,6 +65,11 @@ const CreateForm = ({ open, setOpen }: any) => {
     beforeUpload(file: any, fileList: any) {
       return file;
     },
+    customRequest({ onSuccess }: any) {
+      setTimeout(() => {
+        onSuccess("ok", null);
+      }, 0);
+    },
   };
 
   const handleSubmit = async () => {
