@@ -94,6 +94,7 @@ const Sidebar = ({ hamburger, open, setOpen }: any) => {
             icon={<ToolOutlined />}
             title="Creation Lab"
             key={"sub1"}
+            theme="light"
           >
             <Menu.Item icon={<DollarOutlined />} key={"1"}>
               <Link href={"/dashboard/token-manager"}>Token Manager</Link>
