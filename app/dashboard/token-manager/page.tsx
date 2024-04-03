@@ -19,7 +19,7 @@ const TokenManager = () => {
   //
   return (
     <>
-      <div className="flex gap-10 flex-wrap items-center justify-center">
+      <div className="flex gap-10 flex-wrap items-center justify-center w-full flex h-full">
         <div>
           <ActionCard
             icon={<PlusOutlined className="sm:text-[38px] 2xl:text-[48px]" />}

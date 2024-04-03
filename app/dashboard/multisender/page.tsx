@@ -103,8 +103,8 @@ const MultiSender = () => {
   };
 
   return (
-    <div className="flex p-4 w-full">
-      <div className="w-[50%] mx-auto shadow-md rounded-lg">
+    <div className="flex p-4 w-full justify-center h-full items-center">
+      <div className="w-[50%] mx-auto shadow-md rounded-lg px-5 py-5">
         <FormLayout
           form={form}
           handleSubmit={(values) =>
