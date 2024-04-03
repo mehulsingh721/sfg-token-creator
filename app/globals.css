@@ -69,3 +69,7 @@
   height: 1rem !important;
   width: 1rem !important;
 }
+
+.ant-menu-submenu-title {
+  color: #1a1a1a !important; /* Your desired color */
+}

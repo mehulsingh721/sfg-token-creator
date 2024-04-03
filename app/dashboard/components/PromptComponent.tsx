@@ -12,7 +12,7 @@ const PromptComponent = ({
   const [form] = Form.useForm();
   return (
     <>
-      <div className="w-full flex h-full items-center justify-between m-auto">
+      <div className="w-full h-full flex items-center justify-between m-auto">
         <div className="w-full h-full">
           <div className="w-[65%] flex flex-col h-full justify-between">
             <div>

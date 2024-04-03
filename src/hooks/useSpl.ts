@@ -208,10 +208,10 @@ export const useSpl = () => {
       tokenInfo = await getMint(connection, tokenAddress as any);
       decimals = tokenInfo.decimals;
     }
-    const { uiAmount } = await checkSfgBalance();
+    const sfgBalance = await checkSfgBalance();
     let fees;
 
-    if (uiAmount >= SFG_BALANCE_THRESHOLD) {
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
       fees = takeFees(HOLDER_MULTISEND_FEES);
     } else {
       if (recipients.length <= 100) {

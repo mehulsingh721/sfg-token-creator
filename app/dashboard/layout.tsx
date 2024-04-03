@@ -69,7 +69,6 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
               </Header>
               <Content
                 style={{
-                  margin: "24px 16px 0",
                   overflow: "auto",
                   padding: "2rem 0",
                   display: "flex",

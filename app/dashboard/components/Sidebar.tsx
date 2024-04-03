@@ -73,7 +73,7 @@ const Sidebar = ({ hamburger, open, setOpen }: any) => {
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <div className="">
+      <div className="overflow-y-auto">
         <div className="py-4 font-medium px-8 text-sm">
           <div className="flex items-center gap-5">
             {hamburger && <HamburgerIcon open={open} setOpen={setOpen} />}
@@ -94,6 +94,7 @@ const Sidebar = ({ hamburger, open, setOpen }: any) => {
             icon={<ToolOutlined />}
             title="Creation Lab"
             key={"sub1"}
+            theme="light"
           >
             <Menu.Item icon={<DollarOutlined />} key={"1"}>
               <Link href={"/dashboard/token-manager"}>Token Manager</Link>

@@ -21,6 +21,10 @@ export const AppTheme: ThemeConfig = {
       itemSelectedBg: "#0038ff",
       itemSelectedColor: "#FEFEFF",
       itemMarginInline: 20,
+      // subMenuItemBg: "#0038ff",
+      groupTitleColor: "#000000",
+      darkGroupTitleColor: "#000000",
+      colorBgElevated: "#000000",
     },
     Button: {
       defaultBg: "#0038ff",
