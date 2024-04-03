@@ -78,7 +78,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                   flexWrap: "wrap",
                 }}
               >
-                <div>{children}</div>
+                <div className="w-full">{children}</div>
               </Content>
               <Footer
                 style={{

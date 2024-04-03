@@ -21,7 +21,7 @@ import { useMemo, useState } from "react";
 import Logo from "../../../src/assets/NEW_Logo_Dark.svg";
 import HamburgerIcon from "./Hamburger";
 
-const Sidebar = ({ hamburger, setHamburger, open, setOpen }: any) => {
+const Sidebar = ({ hamburger, open, setOpen }: any) => {
   const pathname = usePathname();
   const [selectedItem, setSelectedItem] = useState("");
 

@@ -9,18 +9,13 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { useMemo } from "react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { NETWORK_URL } from "@/app/constants/app";
 
 const WalletConnectionProvider = ({ children }: any) => {
-  const network =
-    "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909";
-  const endpoint = useMemo(
-    () =>
-      "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909",
-    [network]
-  );
+  const endpoint = useMemo(() => NETWORK_URL, [NETWORK_URL]);
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
-    [network]
+    [NETWORK_URL]
   );
 
   return (
