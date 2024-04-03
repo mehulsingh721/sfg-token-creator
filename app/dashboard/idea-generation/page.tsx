@@ -3,7 +3,11 @@ import PromptComponent from "../components/PromptComponent";
 
 const IdeaGeneration = () => {
   return (
-    <div className="flex p-4 w-full h-full justify-center items-center">
+    <div className="flex px-4 w-full h-full justify-center items-center flex flex-col">
+      <h1 className="font-semibold text-base mb-5">
+        Note: This page is just an overview and not functional at the moment, it
+        is to show the future functionality
+      </h1>
       <PromptComponent
         heading={"Token Idea Generation"}
         input1Label={"Target Market/Industry"}
