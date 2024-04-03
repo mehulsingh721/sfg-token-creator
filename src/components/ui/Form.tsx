@@ -45,7 +45,13 @@ export function FormInput({
   );
 }
 
-export function FormTextArea({ label, placeholder, name, onChange }: formType) {
+export function FormTextArea({
+  label,
+  placeholder,
+  name,
+  onChange,
+  required,
+}: formType) {
   return (
     <Form.Item name={name} label={label}>
       <TextArea
@@ -53,6 +59,7 @@ export function FormTextArea({ label, placeholder, name, onChange }: formType) {
         rows={5}
         placeholder={placeholder}
         onChange={(value) => onChange && onChange(value)}
+        required={required}
       />
     </Form.Item>
   );

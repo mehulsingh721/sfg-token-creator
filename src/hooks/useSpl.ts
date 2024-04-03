@@ -36,13 +36,29 @@ import {
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
-import { ADMIN_WALLET, MINT_FEES } from "@/app/constants/app";
+import {
+  ADMIN_WALLET,
+  HOLDER_MINT_FEES,
+  HOLDER_MULTISEND_FEES,
+  MINT_FEES,
+  MULTISEND_FEES_100,
+  MULTISEND_FEES_UNLIMITED,
+  SFG_BALANCE_THRESHOLD,
+} from "@/app/constants/app";
 import { toast } from "react-toastify";
 import { SignerWalletAdapterProps } from "@solana/wallet-adapter-base";
 
 export const useSpl = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
   const { connection } = useConnection();
+
+  const takeFees = (feeAmount: number) => {
+    return SystemProgram.transfer({
+      fromPubkey: publicKey as PublicKey,
+      toPubkey: ADMIN_WALLET,
+      lamports: feeAmount * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
+    });
+  };
 
   const createToken = async (metadataUrl: string, tokenInfo: any) => {
     const lamports = await getMinimumBalanceForRentExemptMint(connection);
@@ -82,6 +98,13 @@ export const useSpl = () => {
         },
       }
     );
+    const { uiAmount } = await checkSfgBalance();
+    let fee;
+    if (uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fee = takeFees(HOLDER_MINT_FEES);
+    } else {
+      fee = takeFees(MINT_FEES);
+    }
 
     const createNewTokenTransaction = new Transaction().add(
       SystemProgram.createAccount({
@@ -111,11 +134,7 @@ export const useSpl = () => {
         tokenInfo.supply * Math.pow(10, tokenInfo.decimals)
       ),
       createMetadataInstruction,
-      SystemProgram.transfer({
-        fromPubkey: publicKey as PublicKey,
-        toPubkey: ADMIN_WALLET,
-        lamports: MINT_FEES * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
-      })
+      fee
     );
 
     try {
@@ -177,42 +196,75 @@ export const useSpl = () => {
     }
   };
 
-  const multisend = async (tokenAddress: PublicKey, recipients: any) => {
-    const tokenInfo = await getMint(connection, tokenAddress);
-    const { decimals } = tokenInfo;
+  const multisend = async (
+    tokenAddress: PublicKey | undefined,
+    recipients: any,
+    tokenType: string
+  ) => {
+    let tokenInfo;
+    let decimals: any;
+
+    if (tokenType === "SPL") {
+      tokenInfo = await getMint(connection, tokenAddress as any);
+      decimals = tokenInfo.decimals;
+    }
+    const { uiAmount } = await checkSfgBalance();
+    let fees;
+
+    if (uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fees = takeFees(HOLDER_MULTISEND_FEES);
+    } else {
+      if (recipients.length <= 100) {
+        fees = takeFees(MULTISEND_FEES_100);
+      } else {
+        fees = takeFees(MULTISEND_FEES_UNLIMITED);
+      }
+    }
 
     const transaction = new Transaction();
 
+    transaction.add(fees);
+
+    console.log(tokenType);
     for (const recipient of recipients) {
-      const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        publicKey as PublicKey,
-        tokenAddress,
-        publicKey as PublicKey,
-        signTransaction as any
-      );
+      if (tokenType === "SPL") {
+        const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
+          connection,
+          publicKey as PublicKey,
+          tokenAddress as PublicKey,
+          publicKey as PublicKey,
+          signTransaction as any
+        );
+        const toTokenAccount = await getOrCreateAssociatedTokenAccount(
+          connection,
+          publicKey as PublicKey,
+          tokenAddress as PublicKey,
+          new PublicKey(recipient.address),
+          signTransaction as any
+        );
 
-      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        publicKey as PublicKey,
-        tokenAddress,
-        new PublicKey(recipient.address),
-        signTransaction as any
-      );
-
-      const transferInstruction = createTransferInstruction(
-        fromTokenAccount.address,
-        toTokenAccount.address,
-        publicKey as PublicKey,
-        BigInt(parseFloat(recipient.amount) * 10 ** decimals)
-      );
-      transaction.add(transferInstruction);
+        const transferInstruction = createTransferInstruction(
+          fromTokenAccount.address,
+          toTokenAccount.address,
+          publicKey as PublicKey,
+          BigInt(parseFloat(recipient.amount) * 10 ** decimals)
+        );
+        transaction.add(transferInstruction);
+      } else if (tokenType === "SOL") {
+        console.log(recipient.address);
+        transaction.add(
+          SystemProgram.transfer({
+            fromPubkey: publicKey as PublicKey,
+            toPubkey: new PublicKey(recipient.address),
+            lamports: recipient.amount * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
+          })
+        );
+      }
     }
     try {
       const signature = await sendTransaction(transaction, connection);
       return signature;
     } catch (err: any) {
-      // console.log(err);
       throw new err.message();
     }
   };
@@ -337,6 +389,24 @@ export const useSpl = () => {
         ? rawAccount.closeAuthority
         : null,
     };
+  };
+
+  const checkSfgBalance = async () => {
+    const sfgToken = new PublicKey(
+      "9J6akKgzRDWBKyeaDDkbREEUTYVSVVHY8L6qjW7AQkB4"
+    );
+    try {
+      const balance: any = await connection.getParsedTokenAccountsByOwner(
+        publicKey as PublicKey,
+        {
+          mint: sfgToken,
+        }
+      );
+      return balance.value[0].account.data.parsed.info.tokenAmount;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   };
 
   return {
