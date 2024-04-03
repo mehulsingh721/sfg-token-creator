@@ -8,7 +8,7 @@ const FormLayout = ({
   form,
 }: PropsWithChildren<{ handleSubmit: (values: any) => void; form: any }>) => {
   return (
-    <div className="bg-white p-4 sm:p-8 md:p-12 rounded-xl shadow-l">
+    <div className="bg-white rounded-xl shadow-l">
       <Form
         form={form}
         layout="vertical"
