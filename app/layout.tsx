@@ -6,6 +6,7 @@ import WalletConnectionProvider from "@/src/provider/WalletConnectionProvider";
 import { AutoConnectProvider } from "@/src/provider/AutoConnectProvider";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           </AutoConnectProvider>
         </WalletConnectionProvider>
       </body>
+      <GoogleAnalytics gaId="G-ZRLX3BC45B" />
     </html>
   );
 }

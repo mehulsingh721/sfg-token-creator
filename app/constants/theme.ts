@@ -22,5 +22,11 @@ export const AppTheme: ThemeConfig = {
       itemSelectedColor: "#FEFEFF",
       itemMarginInline: 20,
     },
+    Button: {
+      defaultBg: "#0038ff",
+      defaultHoverBorderColor: "#0038ff",
+      defaultHoverColor: "#0038ff",
+      defaultColor: "#fefeff",
+    },
   },
 };
