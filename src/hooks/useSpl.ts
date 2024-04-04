@@ -98,9 +98,9 @@ export const useSpl = () => {
         },
       }
     );
-    const { uiAmount } = await checkSfgBalance();
+    const sfgBalance = await checkSfgBalance();
     let fee;
-    if (uiAmount >= SFG_BALANCE_THRESHOLD) {
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
       fee = takeFees(HOLDER_MINT_FEES);
     } else {
       fee = takeFees(MINT_FEES);
