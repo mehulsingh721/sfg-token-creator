@@ -1,3 +1,4 @@
+import { MarketV2 } from "@raydium-io/raydium-sdk";
 import { Market } from "@openbook-dex/openbook";
 import { OpenBookV2Client } from "@openbook-dex/openbook-v2";
 import { AnchorProvider, BN } from "@project-serum/anchor";
@@ -16,9 +17,12 @@ export const useOpenbook = () => {
   const programId = new PublicKey(
     "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
   );
+
   const client = new OpenBookV2Client(provider as any, programId);
 
-  const createMarket = () => {};
+  const createMarket = () => {
+    // MarketV2.makeCreateMarketInstruction({})
+  };
 
   return { createMarket };
 };
