@@ -4,7 +4,7 @@ import {
   PlusOutlined,
   StopOutlined,
 } from "@ant-design/icons";
-import ActionCard from "./components/ActionCard";
+import ActionCard from "../components/ActionCard";
 import CreateForm from "./components/CreateFormModal";
 import { useState } from "react";
 import RevokeMintAuthorityModal from "./components/RevokeMintAuthorityModal";
