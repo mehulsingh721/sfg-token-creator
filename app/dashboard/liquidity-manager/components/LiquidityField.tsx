@@ -11,11 +11,15 @@ const LiquidityField = ({
   const [inputValue, setInputValue] = useState(null);
 
   return (
-    <div className="flex border border-black gap-2 w-max py-2 px-2 ">
+    <div className="flex border border-slate-400 gap-2 w-max py-2 px-2 rounded-md">
       <div className="flex items-center gap-3">
-        <div className="h-10 w-10 bg-gray-600">
-          <img src={tokenLogo} className="h-10 w-10" />
-        </div>
+        {tokenLogo ? (
+          <div className="h-10 w-10 bg-slate-300">
+            <img src={tokenLogo} className="h-10 w-10" />
+          </div>
+        ) : (
+          <div className="h-10 w-10 border border-slate-500	bg-gray-900 rounded-[100%]"></div>
+        )}
         {tokenName ? (
           <h1>
             {tokenName} {`(${tokenSymbol})`}
@@ -33,7 +37,7 @@ const LiquidityField = ({
               setInputValue(balance);
               setAmount(balance);
             }}
-            className="rounded-xl border border-black px-2"
+            className="rounded-xl border border-slate-400 px-2"
           >
             Max
           </button>
@@ -43,7 +47,7 @@ const LiquidityField = ({
               setInputValue(((parseFloat(balance) * 50) / 100) as any);
               setAmount((parseFloat(balance) * 50) / 100);
             }}
-            className="rounded-xl border border-black px-2"
+            className="rounded-xl border border-slate-400 px-2"
           >
             Half
           </button>

@@ -9,13 +9,14 @@ import { FormInput, FormTextArea } from "@/src/components/ui/Form";
 import { useOpenbook } from "@/src/hooks/useOpenbook";
 import { useSpl } from "@/src/hooks/useSpl";
 import FormLayout from "@/src/layout/FormLayout";
+import { AppContext } from "@/src/provider/AppProvider";
 import { CopyOutlined } from "@ant-design/icons";
 import { TxVersion } from "@raydium-io/raydium-sdk";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 import { useSDK } from "@thirdweb-dev/react";
 import { Alert, Form, Select, Switch } from "antd";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
 const MarketForm = ({ form, connected }: any) => {
@@ -25,7 +26,8 @@ const MarketForm = ({ form, connected }: any) => {
   const { getTokens, getMetadata } = useSpl();
   const [userTokens, setUserTokens] = useState([]);
   const [selectedOpenbook, setSelectedOpenbook] = useState(0);
-  const [marketId, setMarketId] = useState("d");
+  const [marketId, setMarketId] = useState("");
+  const { setLoader } = useContext(AppContext);
 
   useMemo(() => {
     form.setFieldsValue({
@@ -50,11 +52,13 @@ const MarketForm = ({ form, connected }: any) => {
   };
 
   const handleSubmit = async (values: any) => {
+    console.log("Hishahi");
+    setLoader({ loading: true, text: "Sending Transaction..." });
     const lotSize = values.minOrderSize;
     const tickSize = values.tickSize;
     const baseInfo = getTokenInfo(values.baseToken);
     const quoteInfo = getTokenInfo(values.quoteToken);
-    await createMarket({
+    const market = await createMarket({
       baseInfo: baseInfo,
       quoteInfo: quoteInfo,
       lotSize: parseFloat(ORDER_SIZE_OPTIONS[lotSize].size),
@@ -64,12 +68,16 @@ const MarketForm = ({ form, connected }: any) => {
       requestQueueLength: OPENBOOK_OPTIONS[selectedOpenbook].requestQueueLength,
       orderbookLength: OPENBOOK_OPTIONS[selectedOpenbook].orderbookLength,
     });
+    setLoader({ loading: false, text: "" });
+    console.log(market);
+    // setMarketId(market.market.publicKey.toBase58());
     // const quoteInfo = getAccountInfo(new PublicKey(values.quoteToken));
   };
 
   useMemo(() => {
     if (connected) {
       (async () => {
+        setLoader({ loading: true, text: "Fetching Data..." });
         const data = await getTokens();
         const tokensList = [];
         for (const item in data) {
@@ -91,6 +99,7 @@ const MarketForm = ({ form, connected }: any) => {
           });
         }
         setUserTokens(tokensList as any);
+        setLoader({ loading: false, text: "" });
       })();
     }
   }, [connected]);
@@ -216,7 +225,7 @@ const MarketForm = ({ form, connected }: any) => {
                     </Select.Option> */}
                   </Select>
                 </Form.Item>
-                <div className="sm:flex sm:space-x-4">
+                {/* <div className="sm:flex sm:space-x-4">
                   <div className="w-full sm:w-6/12">
                     <FormInput
                       label="Event Queue Length :"
@@ -248,12 +257,12 @@ const MarketForm = ({ form, connected }: any) => {
                       defaultValue={`${OPENBOOK_OPTIONS[selectedOpenbook].orderbookLength} Bytes`}
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>
         </div>
-        {marketId !== "" ? (
+        {/* {marketId !== "" ? (
           <div className="flex justify-center flex-col items-center">
             <h1 className="text-xl">Your Openbook ID</h1>
             <div
@@ -267,19 +276,17 @@ const MarketForm = ({ form, connected }: any) => {
               <CopyOutlined />
             </div>
           </div>
-        ) : (
-          <div className="flex justify-center items-centers">
-            {!connected ? (
-              <WalletMultiButton />
-            ) : (
-              <Form.Item>
-                <ButtonCustom htmlType={"submit"}>
-                  Create Market ID
-                </ButtonCustom>
-              </Form.Item>
-            )}
-          </div>
-        )}
+        ) : ( */}
+        <div className="flex justify-center items-centers">
+          {!connected ? (
+            <WalletMultiButton />
+          ) : (
+            <Form.Item>
+              <ButtonCustom htmlType={"submit"}>Create Market ID</ButtonCustom>
+            </Form.Item>
+          )}
+        </div>
+        {/* )} */}
       </FormLayout>
     </div>
   );

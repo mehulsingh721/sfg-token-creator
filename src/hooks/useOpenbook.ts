@@ -1,7 +1,9 @@
 import {
   CacheLTA,
   InstructionType,
+  MAINNET_PROGRAM_ID,
   MARKET_STATE_LAYOUT_V2,
+  Market,
   MarketV2,
   TOKEN_PROGRAM_ID,
   TxVersion,
@@ -55,9 +57,7 @@ export const useOpenbook = () => {
   }) => {
     const wallet = publicKey as PublicKey;
 
-    const dexProgramId = new PublicKey(
-      "opnb2LAfJYbRMAHHvqjCwQxanZn7ReEHp1k81EohpZb"
-    );
+    const dexProgramId = MAINNET_PROGRAM_ID.OPENBOOK_MARKET;
     const market = generatePubKey({
       fromPublicKey: wallet,
       programId: dexProgramId,
@@ -121,7 +121,6 @@ export const useOpenbook = () => {
       throw Error("tick size or lot size is too small");
 
     const ins = await createMarketInstructionsSimple({
-      connection,
       wallet,
       marketInfo: {
         programId: dexProgramId,
@@ -178,24 +177,14 @@ export const useOpenbook = () => {
     }
 
     return {
-      address: ins.address,
-      innerTransactions: await splitTxAndSigners({
-        connection,
-        makeTxVersion,
-        computeBudgetConfig: undefined,
-        payer: wallet,
-        innerTransaction: ins.innerTransactions,
-        lookupTableCache,
-      }),
+      market,
     };
   };
 
   const createMarketInstructionsSimple = async ({
-    connection,
     wallet,
     marketInfo,
   }: {
-    connection: Connection;
     wallet: PublicKey;
     marketInfo: {
       programId: PublicKey;
@@ -256,17 +245,17 @@ export const useOpenbook = () => {
 
     const ins2: TransactionInstruction[] = [];
     ins2.push(
-      SystemProgram.createAccountWithSeed({
-        fromPubkey: wallet,
-        basePubkey: wallet,
-        seed: marketInfo.id.seed,
-        newAccountPubkey: marketInfo.id.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(
-          MARKET_STATE_LAYOUT_V2.span
-        ),
-        space: MARKET_STATE_LAYOUT_V2.span,
-        programId: marketInfo.programId,
-      }),
+      // SystemProgram.createAccountWithSeed({
+      //   fromPubkey: wallet,
+      //   basePubkey: wallet,
+      //   seed: marketInfo.id.seed,
+      //   newAccountPubkey: marketInfo.id.publicKey,
+      //   lamports: await connection.getMinimumBalanceForRentExemption(
+      //     MARKET_STATE_LAYOUT_V2.span
+      //   ),
+      //   space: MARKET_STATE_LAYOUT_V2.span,
+      //   programId: marketInfo.programId,
+      // }),
       SystemProgram.createAccountWithSeed({
         fromPubkey: wallet,
         basePubkey: wallet,
@@ -374,3 +363,7 @@ export const useOpenbook = () => {
 
   return { createMarketInstructionsSimple, createMarket };
 };
+// {
+//     "publicKey": "9w7kYagAQwt4YYuGDoGhLZNxdmbTjA5azFeT86FpaNaY",
+//     "seed": "3BA4VfYd1MWr4mRqXkyTiMqTY6PUnASd"
+// }
