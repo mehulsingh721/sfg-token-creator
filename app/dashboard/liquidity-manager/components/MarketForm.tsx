@@ -28,6 +28,7 @@ const MarketForm = ({ form, connected }: any) => {
   const [selectedOpenbook, setSelectedOpenbook] = useState(0);
   const [marketId, setMarketId] = useState("");
   const { setLoader } = useContext(AppContext);
+  const { marketIdConfirmed } = useContext(AppContext);
 
   useMemo(() => {
     form.setFieldsValue({
@@ -58,6 +59,7 @@ const MarketForm = ({ form, connected }: any) => {
     const tickSize = values.tickSize;
     const baseInfo = getTokenInfo(values.baseToken);
     const quoteInfo = getTokenInfo(values.quoteToken);
+
     const market = await createMarket({
       baseInfo: baseInfo,
       quoteInfo: quoteInfo,
@@ -69,9 +71,7 @@ const MarketForm = ({ form, connected }: any) => {
       orderbookLength: OPENBOOK_OPTIONS[selectedOpenbook].orderbookLength,
     });
     setLoader({ loading: false, text: "" });
-    console.log(market);
-    // setMarketId(market.market.publicKey.toBase58());
-    // const quoteInfo = getAccountInfo(new PublicKey(values.quoteToken));
+    setMarketId(market.market.publicKey.toString());
   };
 
   useMemo(() => {
@@ -217,15 +217,9 @@ const MarketForm = ({ form, connected }: any) => {
                         </div>
                       </Select.Option>
                     ))}
-                    {/* <Select.Option key={"1.5"}>
-                      <div className="flex items-center gap-2">1.5 SOL</div>
-                    </Select.Option>
-                    <Select.Option key={"2.8"}>
-                      <div className="flex items-center gap-2">2.8 SOL</div>
-                    </Select.Option> */}
                   </Select>
                 </Form.Item>
-                {/* <div className="sm:flex sm:space-x-4">
+                <div className="sm:flex sm:space-x-4">
                   <div className="w-full sm:w-6/12">
                     <FormInput
                       label="Event Queue Length :"
@@ -257,12 +251,13 @@ const MarketForm = ({ form, connected }: any) => {
                       defaultValue={`${OPENBOOK_OPTIONS[selectedOpenbook].orderbookLength} Bytes`}
                     />
                   </div>
-                </div> */}
+                </div>
               </div>
             )}
           </div>
         </div>
-        {/* {marketId !== "" ? (
+
+        {marketIdConfirmed && marketId !== "" ? (
           <div className="flex justify-center flex-col items-center">
             <h1 className="text-xl">Your Openbook ID</h1>
             <div
@@ -276,17 +271,19 @@ const MarketForm = ({ form, connected }: any) => {
               <CopyOutlined />
             </div>
           </div>
-        ) : ( */}
-        <div className="flex justify-center items-centers">
-          {!connected ? (
-            <WalletMultiButton />
-          ) : (
-            <Form.Item>
-              <ButtonCustom htmlType={"submit"}>Create Market ID</ButtonCustom>
-            </Form.Item>
-          )}
-        </div>
-        {/* )} */}
+        ) : (
+          <div className="flex justify-center items-centers">
+            {!connected ? (
+              <WalletMultiButton />
+            ) : (
+              <Form.Item>
+                <ButtonCustom htmlType={"submit"}>
+                  Create Market ID
+                </ButtonCustom>
+              </Form.Item>
+            )}
+          </div>
+        )}
       </FormLayout>
     </div>
   );

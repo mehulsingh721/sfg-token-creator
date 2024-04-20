@@ -245,26 +245,26 @@ export const useOpenbook = () => {
 
     const ins2: TransactionInstruction[] = [];
     ins2.push(
-      // SystemProgram.createAccountWithSeed({
-      //   fromPubkey: wallet,
-      //   basePubkey: wallet,
-      //   seed: marketInfo.id.seed,
-      //   newAccountPubkey: marketInfo.id.publicKey,
-      //   lamports: await connection.getMinimumBalanceForRentExemption(
-      //     MARKET_STATE_LAYOUT_V2.span
-      //   ),
-      //   space: MARKET_STATE_LAYOUT_V2.span,
-      //   programId: marketInfo.programId,
-      // }),
+      SystemProgram.createAccountWithSeed({
+        fromPubkey: wallet,
+        basePubkey: wallet,
+        seed: marketInfo.id.seed,
+        newAccountPubkey: marketInfo.id.publicKey,
+        lamports: await connection.getMinimumBalanceForRentExemption(
+          MARKET_STATE_LAYOUT_V2.span
+        ),
+        space: MARKET_STATE_LAYOUT_V2.span,
+        programId: marketInfo.programId,
+      }),
       SystemProgram.createAccountWithSeed({
         fromPubkey: wallet,
         basePubkey: wallet,
         seed: marketInfo.requestQueue.seed,
         newAccountPubkey: marketInfo.requestQueue.publicKey,
         lamports: await connection.getMinimumBalanceForRentExemption(
-          marketInfo.requestQueueLength
+          parseInt(marketInfo.requestQueueLength.toString())
         ),
-        space: marketInfo.requestQueueLength,
+        space: parseInt(marketInfo.requestQueueLength.toString()),
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -273,9 +273,9 @@ export const useOpenbook = () => {
         seed: marketInfo.eventQueue.seed,
         newAccountPubkey: marketInfo.eventQueue.publicKey,
         lamports: await connection.getMinimumBalanceForRentExemption(
-          marketInfo.eventQueueLength
+          parseInt(marketInfo.eventQueueLength.toString())
         ),
-        space: marketInfo.eventQueueLength,
+        space: parseInt(marketInfo.eventQueueLength.toString()),
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -284,9 +284,9 @@ export const useOpenbook = () => {
         seed: marketInfo.bids.seed,
         newAccountPubkey: marketInfo.bids.publicKey,
         lamports: await connection.getMinimumBalanceForRentExemption(
-          marketInfo.orderbookLength
+          parseInt(marketInfo.orderbookLength.toString())
         ),
-        space: marketInfo.orderbookLength,
+        space: parseInt(marketInfo.orderbookLength.toString()),
         programId: marketInfo.programId,
       }),
       SystemProgram.createAccountWithSeed({
@@ -295,9 +295,9 @@ export const useOpenbook = () => {
         seed: marketInfo.asks.seed,
         newAccountPubkey: marketInfo.asks.publicKey,
         lamports: await connection.getMinimumBalanceForRentExemption(
-          marketInfo.orderbookLength
+          parseInt(marketInfo.orderbookLength.toString())
         ),
-        space: marketInfo.orderbookLength,
+        space: parseInt(marketInfo.orderbookLength.toString()),
         programId: marketInfo.programId,
       }),
       MarketV2.initializeMarketInstruction({
@@ -312,7 +312,6 @@ export const useOpenbook = () => {
           quoteVault: marketInfo.quoteVault.publicKey,
           baseMint: marketInfo.baseMint,
           quoteMint: marketInfo.quoteMint,
-
           baseLotSize: marketInfo.baseLotSize,
           quoteLotSize: marketInfo.quoteLotSize,
           feeRateBps: marketInfo.feeRateBps,
@@ -366,4 +365,13 @@ export const useOpenbook = () => {
 // {
 //     "publicKey": "9w7kYagAQwt4YYuGDoGhLZNxdmbTjA5azFeT86FpaNaY",
 //     "seed": "3BA4VfYd1MWr4mRqXkyTiMqTY6PUnASd"
+// }
+
+// {
+//     "publicKey": "9JabdZCKBcjeR4YmEE7qkG3wg5fy8HmhS12NBDmCUVAm",
+//     "seed": "GE1vc2L3S5DCrgxHnosrSyuFnjKGc2VZ"
+// }
+// {
+//     "publicKey": "55nvvhqKpThDbTUVBu7wkqDD6sX1yVGo9o5THP8xZAjY",
+//     "seed": "B8JnXGKLEMzRjPc1nLKDnHZQDzGW5Gtw"
 // }

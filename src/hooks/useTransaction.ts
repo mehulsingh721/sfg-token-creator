@@ -1,8 +1,11 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useContext } from "react";
 import { toast } from "react-toastify";
+import { AppContext } from "../provider/AppProvider";
 
 export const useTransaction = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
+  const { setMarketIdConfirmed } = useContext(AppContext);
   const { connection } = useConnection();
 
   const processMultipleTransaction = async (transactions: Array<any>) => {
@@ -23,6 +26,7 @@ export const useTransaction = () => {
       success: "Transaction Successfull",
       error: "Transaction Failed",
     });
+    setMarketIdConfirmed(true);
   };
   return { processMultipleTransaction };
 };
