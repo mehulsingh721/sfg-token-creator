@@ -53,7 +53,6 @@ const MarketForm = ({ form, connected }: any) => {
   };
 
   const handleSubmit = async (values: any) => {
-    console.log("Hishahi");
     setLoader({ loading: true, text: "Sending Transaction..." });
     const lotSize = values.minOrderSize;
     const tickSize = values.tickSize;
@@ -77,7 +76,7 @@ const MarketForm = ({ form, connected }: any) => {
   useMemo(() => {
     if (connected) {
       (async () => {
-        setLoader({ loading: true, text: "Fetching Data..." });
+        setLoader({ loading: true, text: "Fetching your tokens..." });
         const data = await getTokens();
         const tokensList = [];
         for (const item in data) {

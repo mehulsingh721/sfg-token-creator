@@ -8,27 +8,36 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 import { DatePicker, Form, Select, Switch } from "antd";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import LiquidityField from "./LiquidityField";
 import { useUser } from "@/src/hooks/useUser";
 import { usePool } from "@/src/hooks/usePool";
 import { BN } from "@project-serum/anchor";
 import { toast } from "react-toastify";
 import { Liquidity } from "@raydium-io/raydium-sdk";
+import { AppContext } from "@/src/provider/AppProvider";
 
-const PoolForm = ({ form, connected }: any) => {
+const PoolForm = ({
+  form,
+  connected,
+  baseAmount,
+  setBaseAmount,
+  quoteAmount,
+  setQuoteAmount,
+  baseToken,
+  setBaseToken,
+  quoteToken,
+  setQuoteToken,
+}: any) => {
   const [schedule, setSchedule] = useState(false);
   const { getTokens, getMetadata } = useSpl();
   const [userTokens, setUserTokens] = useState([]);
   const [selectedOpenbook, setSelectedOpenbook] = useState(0);
-  const [baseToken, setBaseToken] = useState(null);
-  const [quoteToken, setQuoteToken] = useState(null);
   const [solInfo, setSolInfo] = useState({});
   const { checkSolBalance } = useUser();
   const { createNewPool } = usePool();
   const { getWalletTokenAccount } = useUser();
-  const [baseAmount, setBaseAmount] = useState(null);
-  const [quoteAmount, setQuoteAmount] = useState(null);
+  const { setLoader } = useContext(AppContext);
 
   const getTokenInfo = (key: any) => {
     if (key === "sol") {
@@ -63,6 +72,7 @@ const PoolForm = ({ form, connected }: any) => {
   useMemo(() => {
     if (connected) {
       (async () => {
+        setLoader({ loading: true, text: "Fetching your tokens..." });
         const data = await getTokens();
         const tokensList = [];
         for (const item in data) {
@@ -85,6 +95,7 @@ const PoolForm = ({ form, connected }: any) => {
         }
         console.log(tokensList);
         setUserTokens(tokensList as any);
+        setLoader({ loading: false, text: "" });
       })();
     }
   }, [connected]);
@@ -96,11 +107,19 @@ const PoolForm = ({ form, connected }: any) => {
       const startTime = dayjs(values.launchTime).unix();
       const walletTokenAccounts = await getWalletTokenAccount();
       if (baseAmount && quoteToken) {
-        const baseAmountFinal = new BN(
+        console.log(
           Math.floor(parseFloat(baseAmount as any) * 10 ** baseToken.decimals)
         );
+        const baseAmountFinal = new BN(
+          Math.floor(
+            parseFloat(baseAmount as any) * 10 ** baseToken.decimals
+          ).toString()
+        );
+
         const quoteAmountFinal = new BN(
-          Math.floor(parseFloat(quoteAmount as any) * 10 ** quoteToken.decimals)
+          Math.floor(
+            parseFloat(quoteAmount as any) * 10 ** quoteToken.decimals
+          ).toString()
         );
 
         const marketId = new PublicKey(values.openbookMarketId);
@@ -119,12 +138,152 @@ const PoolForm = ({ form, connected }: any) => {
         return;
       }
     } catch (err) {
+      console.log(err);
       toast.error("Please input correct data");
       return;
     }
   };
 
-  return <div className="w-full"></div>;
+  return (
+    <div className="w-full">
+      <FormLayout form={form} handleSubmit={(values) => handleSubmit(values)}>
+        <div className="md:flex md:space-x-4 w-full max-h-[65vh] overflow-auto items-center justify-center">
+          <div className="w-full">
+            <div className="sm:flex sm:space-x-4">
+              <div className="w-full sm:w-6/12">
+                <Form.Item label="Base Token" required name={"baseToken"}>
+                  <Select onChange={(value) => setBaseToken(value)}>
+                    {userTokens.map((token: any, key: any) => (
+                      <Select.Option key={key}>
+                        <div className="flex items-center">
+                          <img src={token.logo} className="h-8 w-8" />
+                          <h1>
+                            {token?.name} {`(${token?.symbol})`}
+                          </h1>
+                        </div>
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+              <div className="w-full sm:w-6/12">
+                <Form.Item label="Quote Token:" required name={"quoteToken"}>
+                  <Select onChange={(value) => setQuoteToken(value)}>
+                    <Select.Option key={"sol"}>
+                      <div className="flex items-center gap-2">
+                        <img src={solInfo?.logo} className="h-5 w-5" />
+                        <h1>
+                          {solInfo?.name} {solInfo?.symbol}
+                        </h1>
+                      </div>
+                    </Select.Option>
+                    {userTokens.map((token: any, key: any) => (
+                      <Select.Option key={key}>
+                        <div className="flex items-center gap-2">
+                          <img src={token.logo} className="h-5 w-5" />
+                          <h1>
+                            {token?.name} {`(${token?.symbol})`}
+                          </h1>
+                        </div>
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </div>
+            <div className="sm:flex sm:space-x-4">
+              <div className="w-full">
+                <FormInput
+                  label="Openbook Market ID"
+                  placeholder="Your Openbook Market ID"
+                  name="openbookMarketId"
+                  onChange={(e) => {}}
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="flex gap-5 mb-5">
+              <h1>Set Launch Date: </h1>
+              <Switch
+                checked={schedule}
+                onChange={() => setSchedule(!schedule)}
+              />
+            </div>
+            {schedule && (
+              <div className="">
+                <div className="w-full">
+                  <Form.Item label="Launch Date: " name={"launchTime"}>
+                    <DatePicker
+                      format="YYYY-MM-DD HH:mm:ss"
+                      showTime={{ defaultValue: dayjs("00:00:00", "HH:mm:ss") }}
+                      style={{
+                        width: "100%",
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+            )}
+            <div className="mb-5">
+              <h1 className="text-base font-bold mb-5">Add Liquidity: </h1>
+              <div className="sm:flex sm:space-x-4 justify-center items-center">
+                <div className="">
+                  <LiquidityField
+                    type={"base"}
+                    tokenLogo={userTokens[baseToken as any]?.logo}
+                    tokenName={userTokens[baseToken as any]?.name}
+                    tokenSymbol={userTokens[baseToken as any]?.symbol}
+                    balance={userTokens[baseToken as any]?.userBalance}
+                    setAmount={setBaseAmount}
+                  />
+                </div>
+
+                <div className="text-xl font-bold">
+                  <h1>+</h1>
+                </div>
+
+                <div className="">
+                  <LiquidityField
+                    type={"quote"}
+                    setAmount={setQuoteAmount}
+                    tokenLogo={
+                      quoteToken === "sol"
+                        ? solInfo.logo
+                        : userTokens[quoteToken as any]?.logo
+                    }
+                    tokenName={
+                      quoteToken === "sol"
+                        ? solInfo.name
+                        : userTokens[quoteToken as any]?.name
+                    }
+                    tokenSymbol={
+                      quoteToken === "sol"
+                        ? solInfo.symbol
+                        : userTokens[quoteToken as any]?.symbol
+                    }
+                    balance={
+                      quoteToken === "sol"
+                        ? solInfo.userBalance
+                        : userTokens[quoteToken as any]?.userBalance
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center items-centers">
+          {!connected ? (
+            <WalletMultiButton />
+          ) : (
+            <Form.Item>
+              <ButtonCustom htmlType={"submit"}>Create Pool</ButtonCustom>
+            </Form.Item>
+          )}
+        </div>
+      </FormLayout>
+    </div>
+  );
 };
 
 export default PoolForm;

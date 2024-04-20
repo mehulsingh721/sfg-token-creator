@@ -26,26 +26,39 @@ import MarketForm from "./MarketForm";
 import PoolForm from "./PoolForm";
 
 const CreatePoolModal = ({ open, setOpen }: any) => {
-  const { revokeFreezeAuthority } = useSpl();
-  const { setLoader } = useContext(AppContext);
-  const [mintAddress, setMintAddress] = useState("");
-  const [form] = Form.useForm();
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
   const { connected } = useWallet();
+  const [baseAmount, setBaseAmount] = useState(null);
+  const [quoteAmount, setQuoteAmount] = useState(null);
+  const [quoteToken, setQuoteToken] = useState(null);
+  const [baseToken, setBaseToken] = useState(null);
 
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: "Create Pool",
-      children: <PoolForm form={form} connected={connected} />,
+      children: (
+        <PoolForm
+          form={form1}
+          connected={connected}
+          baseAmount={baseAmount}
+          quoteAmount={quoteAmount}
+          baseToken={baseToken}
+          quoteToken={quoteToken}
+          setBaseAmount={setBaseAmount}
+          setQuoteAmount={setQuoteAmount}
+          setBaseToken={setBaseToken}
+          setQuoteToken={setQuoteToken}
+        />
+      ),
     },
     {
       key: "2",
       label: "Create Market Id",
-      children: <MarketForm form={form} connected={connected} />,
+      children: <MarketForm form={form2} connected={connected} />,
     },
   ];
-
-  const handleChange = () => {};
 
   return (
     <Modal
@@ -54,10 +67,18 @@ const CreatePoolModal = ({ open, setOpen }: any) => {
       footer={null}
       open={open}
       onOk={() => setOpen(false)}
-      onCancel={() => setOpen(false)}
+      onCancel={() => {
+        form1.resetFields();
+        form2.resetFields();
+        setBaseAmount(null);
+        setQuoteAmount(null);
+        setQuoteToken(null);
+        setBaseToken(null);
+        setOpen(false);
+      }}
       width={"60%"}
     >
-      <Tabs defaultActiveKey="1" items={items} onChange={handleChange} />
+      <Tabs defaultActiveKey="1" items={items} onChange={() => null} />
     </Modal>
   );
 };
