@@ -3,8 +3,10 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   createCreateMetadataAccountV3Instruction,
   createRevokeInstruction,
+  Metadata,
   PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
+import { Metaplex } from "@metaplex-foundation/js";
 import {
   MINT_SIZE,
   TOKEN_PROGRAM_ID,
@@ -225,7 +227,6 @@ export const useSpl = () => {
 
     transaction.add(fees);
 
-    console.log(tokenType);
     for (const recipient of recipients) {
       if (tokenType === "SPL") {
         const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
@@ -332,6 +333,7 @@ export const useSpl = () => {
     const associatedTokenProgramId = ASSOCIATED_TOKEN_PROGRAM_ID;
 
     const transaction = new Transaction();
+
     for (let i = 0; i < recipients.length; i++) {
       const owner = recipients[i];
       const associatedToken = await getAssociatedTokenAddress(
@@ -352,6 +354,7 @@ export const useSpl = () => {
       );
       transaction.add(instruction);
     }
+
     try {
       const signature = await sendTransaction(transaction, connection);
       return signature;
@@ -402,10 +405,52 @@ export const useSpl = () => {
           mint: sfgToken,
         }
       );
-      return balance.value[0].account.data.parsed.info.tokenAmount;
+      return balance.value[0]?.account?.data.parsed.info.tokenAmount;
     } catch (err) {
       console.error(err);
       return null;
+    }
+  };
+
+  const getTokens = async (): Promise<any> => {
+    try {
+      const walletTokenAccounts =
+        await connection.getParsedTokenAccountsByOwner(publicKey as PublicKey, {
+          programId: TOKEN_PROGRAM_ID,
+        });
+      if (walletTokenAccounts && walletTokenAccounts.value) {
+        return walletTokenAccounts.value;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return 0;
+  };
+
+  const getMetadata = async (mintAddress: PublicKey) => {
+    const metaplex = Metaplex.make(connection);
+
+    const metadataAccount = metaplex
+      .nfts()
+      .pdas()
+      .metadata({ mint: mintAddress });
+
+    const metadataAccountInfo = await connection.getAccountInfo(
+      metadataAccount
+    );
+
+    if (metadataAccountInfo) {
+      const token = await metaplex
+        .nfts()
+        .findByMint({ mintAddress: mintAddress });
+      const tokenName = token.name;
+      const tokenSymbol = token.symbol;
+      const tokenLogo = token.json?.image;
+      return {
+        tokenName,
+        tokenSymbol,
+        tokenLogo,
+      };
     }
   };
 
@@ -416,6 +461,9 @@ export const useSpl = () => {
     multisend,
     checkATAs,
     createATAs,
+    getAccountInfo,
+    getTokens,
+    getMetadata,
   };
 };
 

@@ -20,6 +20,8 @@ type formType = {
     onChange(info: any): void;
     onDrop(e: any): void;
   };
+  defaultValue?: string | undefined;
+  disabled?: boolean;
 };
 export function FormInput({
   label,
@@ -28,6 +30,8 @@ export function FormInput({
   inputType,
   onChange,
   required,
+  defaultValue,
+  disabled,
 }: formType) {
   return (
     <Form.Item
@@ -36,10 +40,12 @@ export function FormInput({
       rules={[{ required: required, message: `Please input your ${name}!` }]}
     >
       <Input
-        className="p-2"
+        className={`p-2`}
         placeholder={placeholder}
         type={inputType}
         onChange={onChange}
+        value={defaultValue}
+        defaultValue={defaultValue}
       />
     </Form.Item>
   );

@@ -1,7 +1,7 @@
 "use client";
 import { Modal } from "antd";
 import { PropsWithChildren, useState } from "react";
-import CreateFormModal from "./CreateFormModal";
+import CreateFormModal from "../token-manager/components/CreateFormModal";
 
 const ActionCard = ({ icon, title, action }: any) => {
   const [open, setOpen] = useState(false);
