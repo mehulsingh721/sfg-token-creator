@@ -15,6 +15,7 @@ import { BN } from "@project-serum/anchor";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   Connection,
+  LAMPORTS_PER_SOL,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -22,11 +23,20 @@ import {
 } from "@solana/web3.js";
 import { createInitializeAccountInstruction } from "@solana/spl-token";
 import { useTransaction } from "./useTransaction";
+import { ADMIN_WALLET } from "@/app/constants/app";
 
 export const useOpenbook = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const { processMultipleTransaction } = useTransaction();
+
+  const takeFees = (feeAmount: number) => {
+    return SystemProgram.transfer({
+      fromPubkey: publicKey as PublicKey,
+      toPubkey: ADMIN_WALLET,
+      lamports: feeAmount * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
+    });
+  };
 
   const createMarket = async ({
     baseInfo,
@@ -56,6 +66,8 @@ export const useOpenbook = () => {
     orderbookLength: number;
   }) => {
     const wallet = publicKey as PublicKey;
+
+    const fee = takeFees(0.4);
 
     const dexProgramId = MAINNET_PROGRAM_ID.OPENBOOK_MARKET;
     const market = generatePubKey({
@@ -170,6 +182,7 @@ export const useOpenbook = () => {
     });
     // }
 
+    transaction2.add(fee);
     try {
       processMultipleTransaction([transaction1, transaction2]);
     } catch (err: any) {
