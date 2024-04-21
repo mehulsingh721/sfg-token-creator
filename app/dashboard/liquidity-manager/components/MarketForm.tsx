@@ -24,7 +24,7 @@ const MarketForm = ({ form, connected }: any) => {
   const { createMarket } = useOpenbook();
   const { getAccountInfo } = useSpl();
   const { getTokens, getMetadata } = useSpl();
-  const [userTokens, setUserTokens] = useState([]);
+  const [userTokens, setUserTokens] = useState<any>([]);
   const [selectedOpenbook, setSelectedOpenbook] = useState(0);
   const [marketId, setMarketId] = useState("");
   const { setLoader } = useContext(AppContext);
