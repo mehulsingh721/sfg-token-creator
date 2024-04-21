@@ -405,7 +405,7 @@ export const useSpl = () => {
           mint: sfgToken,
         }
       );
-      return balance.value[0].account.data.parsed.info.tokenAmount;
+      return balance.value[0]?.account?.data.parsed.info.tokenAmount;
     } catch (err) {
       console.error(err);
       return null;

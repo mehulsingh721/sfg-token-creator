@@ -96,15 +96,17 @@ export const usePool = () => {
       publicKey as PublicKey,
       poolKeys.lpMint
     );
+
     let LP_account_balance1 = await connection.getTokenAccountBalance(
       lpTokenAccount.publicKey
     );
+    console.log(LP_account_balance1);
 
-    const percentBalance = percentAmount(
-      LP_account_balance1.value.amount,
-      percentage
-    );
-    let Amount_in = new TokenAmount(lpToken, percentBalance);
+    // const percentBalance = percentAmount(
+    //   LP_account_balance1.value.amount,
+    //   percentage
+    // );
+    let Amount_in = new TokenAmount(lpToken, LP_account_balance1.value.amount);
 
     const tokenAccountRawInfos_LP = await getWalletTokenAccount(
       connection,

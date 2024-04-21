@@ -121,7 +121,6 @@ const PoolForm = ({
             parseFloat(quoteAmount as any) * 10 ** quoteToken.decimals
           ).toString()
         );
-
         const marketId = new PublicKey(values.openbookMarketId);
 
         await createNewPool(

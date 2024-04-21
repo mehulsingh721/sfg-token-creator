@@ -8,6 +8,7 @@ import FormLayout from "@/src/layout/FormLayout";
 import { AppContext } from "@/src/provider/AppProvider";
 import { checkTransactionConfirmation } from "@/utils/transaction";
 import { PictureOutlined } from "@ant-design/icons";
+import { PublicKey } from "@metaplex-foundation/js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Button, Form, Image, Modal, Switch, UploadProps, message } from "antd";
@@ -22,7 +23,7 @@ const RemoveLiquidityModal = ({ open, setOpen }: any) => {
 
   const handleSubmit = async () => {
     setLoader({ loading: true, text: "Sending Transaction..." });
-    const signature = await removeLiquidity(mintAddress, 100);
+    const signature = await removeLiquidity(new PublicKey(mintAddress), 100);
     checkTransactionConfirmation(signature);
     setLoader({ loading: false, text: "" });
     setOpen(false);
