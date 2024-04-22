@@ -174,7 +174,7 @@ export const useOpenbook = () => {
     });
     // }
 
-    transaction2.add(fee);
+    // transaction2.add(fee);
     try {
       processMultipleTransaction([transaction1, transaction2]);
     } catch (err: any) {
