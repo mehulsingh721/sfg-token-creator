@@ -49,18 +49,12 @@ import {
 } from "@/app/constants/app";
 import { toast } from "react-toastify";
 import { SignerWalletAdapterProps } from "@solana/wallet-adapter-base";
+import { useTransaction } from "./useTransaction";
 
 export const useSpl = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
+  const { takeFees } = useTransaction();
   const { connection } = useConnection();
-
-  const takeFees = (feeAmount: number) => {
-    return SystemProgram.transfer({
-      fromPubkey: publicKey as PublicKey,
-      toPubkey: ADMIN_WALLET,
-      lamports: feeAmount * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
-    });
-  };
 
   const createToken = async (metadataUrl: string, tokenInfo: any) => {
     const lamports = await getMinimumBalanceForRentExemptMint(connection);

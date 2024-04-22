@@ -23,20 +23,12 @@ import {
 } from "@solana/web3.js";
 import { createInitializeAccountInstruction } from "@solana/spl-token";
 import { useTransaction } from "./useTransaction";
-import { ADMIN_WALLET } from "@/app/constants/app";
+import { ADMIN_WALLET, MARKET_ID_FEES } from "@/app/constants/app";
 
 export const useOpenbook = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
   const { connection } = useConnection();
-  const { processMultipleTransaction } = useTransaction();
-
-  const takeFees = (feeAmount: number) => {
-    return SystemProgram.transfer({
-      fromPubkey: publicKey as PublicKey,
-      toPubkey: ADMIN_WALLET,
-      lamports: feeAmount * LAMPORTS_PER_SOL, // Convert the amount from SOL to lamports
-    });
-  };
+  const { processMultipleTransaction, takeFees } = useTransaction();
 
   const createMarket = async ({
     baseInfo,
@@ -67,7 +59,7 @@ export const useOpenbook = () => {
   }) => {
     const wallet = publicKey as PublicKey;
 
-    const fee = takeFees(0.4);
+    const fee = takeFees(MARKET_ID_FEES);
 
     const dexProgramId = MAINNET_PROGRAM_ID.OPENBOOK_MARKET;
     const market = generatePubKey({

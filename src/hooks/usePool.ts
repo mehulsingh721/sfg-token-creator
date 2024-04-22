@@ -11,10 +11,13 @@ import {
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { getPoolKeys, getWalletTokenAccount } from "../helpers/raydium.helper";
+import { POOL_CREATION_FEES, POOL_REMOVE_FEES } from "@/app/constants/app";
+import { useTransaction } from "./useTransaction";
 
 export const usePool = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
+  const { takeFees } = useTransaction();
 
   const createNewPool = async (
     marketId: PublicKey,
@@ -51,7 +54,9 @@ export const usePool = () => {
           "7YttLkHDoNj9wyDur5pM1ejNaAvT9X4eqaYcHQqtj2G5"
         ), // only mainnet use this
       });
+    const fee = takeFees(POOL_CREATION_FEES);
     const transaction = new Transaction();
+    transaction.add(fee);
     for (const index in initPoolInstructions.innerTransactions) {
       const instruction = initPoolInstructions.innerTransactions[index];
       instruction.instructions.forEach((item) => {
@@ -59,7 +64,11 @@ export const usePool = () => {
       });
     }
     try {
-      await sendTransaction(transaction, connection);
+      const signature = await sendTransaction(transaction, connection);
+      return {
+        signature: signature,
+        ammId: initPoolInstructions.address.ammId,
+      };
     } catch (err) {
       console.error(err);
     }
@@ -124,8 +133,9 @@ export const usePool = () => {
       amountIn: Amount_in,
       makeTxVersion: TxVersion.V0,
     });
-
+    const fee = takeFees(POOL_REMOVE_FEES);
     const transaction = new Transaction();
+    transaction.add(fee);
     lp_ix.innerTransactions.forEach((item) => {
       item.instructions.forEach((instruction) => {
         transaction.add(instruction);

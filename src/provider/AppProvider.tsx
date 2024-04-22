@@ -11,6 +11,7 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     text: "",
   });
   const [marketIdConfirmed, setMarketIdConfirmed] = useState(false);
+  const [ammIdConfirmed, setAmmIdConfirmed] = useState(false);
 
   return (
     <AppContext.Provider
@@ -19,6 +20,8 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setLoader,
         setMarketIdConfirmed,
         marketIdConfirmed,
+        setAmmIdConfirmed,
+        ammIdConfirmed,
       }}
     >
       {children}

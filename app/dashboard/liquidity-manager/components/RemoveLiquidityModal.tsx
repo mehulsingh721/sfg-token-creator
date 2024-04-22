@@ -51,8 +51,8 @@ const RemoveLiquidityModal = ({ open, setOpen }: any) => {
               <div className="">
                 <FormInput
                   name={"lpAddress"}
-                  label="LP Address:"
-                  placeholder="LP Address "
+                  label="AMM ID:"
+                  placeholder="AMM ID "
                   onChange={(e) => setMintAddress(e.target.value)}
                   required={true}
                 />
