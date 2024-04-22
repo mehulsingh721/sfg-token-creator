@@ -33,6 +33,7 @@ const CreatePoolModal = ({ open, setOpen }: any) => {
   const [quoteAmount, setQuoteAmount] = useState(null);
   const [quoteToken, setQuoteToken] = useState(null);
   const [baseToken, setBaseToken] = useState(null);
+  const { setMarketIdConfirmed, setAmmIdConfirmed } = useContext(AppContext);
 
   const items: TabsProps["items"] = [
     {
@@ -75,6 +76,8 @@ const CreatePoolModal = ({ open, setOpen }: any) => {
         setQuoteToken(null);
         setBaseToken(null);
         setOpen(false);
+        setMarketIdConfirmed(false);
+        setAmmIdConfirmed(false);
       }}
       width={"60%"}
     >

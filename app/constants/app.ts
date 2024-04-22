@@ -11,6 +11,10 @@ export const NETWORK_URL =
 export const MINT_FEES = 0.35;
 export const HOLDER_MINT_FEES = 0.2;
 
+export const MARKET_ID_FEES = 0.1;
+export const POOL_CREATION_FEES = 0.1;
+export const POOL_REMOVE_FEES = 0.1;
+
 export const MULTISEND_FEES_100 = 0.05;
 export const MULTISEND_FEES_UNLIMITED = 0.1;
 export const HOLDER_MULTISEND_FEES = 0;

@@ -16,6 +16,8 @@ import { BN } from "@project-serum/anchor";
 import { toast } from "react-toastify";
 import { Liquidity } from "@raydium-io/raydium-sdk";
 import { AppContext } from "@/src/provider/AppProvider";
+import { CopyOutlined } from "@ant-design/icons";
+import { useTransaction } from "@/src/hooks/useTransaction";
 
 const PoolForm = ({
   form,
@@ -38,6 +40,9 @@ const PoolForm = ({
   const { createNewPool } = usePool();
   const { getWalletTokenAccount } = useUser();
   const { setLoader } = useContext(AppContext);
+  const { ammIdConfirmed } = useContext(AppContext);
+  const [ammId, setAmmId] = useState("");
+  const { processPoolTransaction } = useTransaction();
 
   const getTokenInfo = (key: any) => {
     if (key === "sol") {
@@ -93,7 +98,6 @@ const PoolForm = ({
             userBalance: dp.account.data.parsed.info.tokenAmount.uiAmount,
           });
         }
-        console.log(tokensList);
         setUserTokens(tokensList as any);
         setLoader({ loading: false, text: "" });
       })();
@@ -102,14 +106,12 @@ const PoolForm = ({
 
   const handleSubmit = async (values: any) => {
     try {
+      setLoader({ loading: true, text: "Checking Values..." });
       const baseToken = getTokenInfo(values.baseToken);
       const quoteToken = getTokenInfo(values.quoteToken);
       const startTime = dayjs(values.launchTime).unix();
       const walletTokenAccounts = await getWalletTokenAccount();
       if (baseAmount && quoteToken) {
-        console.log(
-          Math.floor(parseFloat(baseAmount as any) * 10 ** baseToken.decimals)
-        );
         const baseAmountFinal = new BN(
           Math.floor(
             parseFloat(baseAmount as any) * 10 ** baseToken.decimals
@@ -121,9 +123,11 @@ const PoolForm = ({
             parseFloat(quoteAmount as any) * 10 ** quoteToken.decimals
           ).toString()
         );
+
         const marketId = new PublicKey(values.openbookMarketId);
 
-        await createNewPool(
+        setLoader({ loading: true, text: "Sending Transaction..." });
+        const { signature, ammId }: any = await createNewPool(
           marketId,
           baseToken,
           quoteToken,
@@ -132,12 +136,16 @@ const PoolForm = ({
           startTime,
           walletTokenAccounts
         );
+        setLoader({ loading: false, text: "" });
+        processPoolTransaction(signature);
+        setAmmId(ammId);
       } else {
+        setLoader({ loading: false, text: "" });
         toast.error("Please input correct LP amounts");
         return;
       }
     } catch (err) {
-      console.log(err);
+      setLoader({ loading: false, text: "" });
       toast.error("Please input correct data");
       return;
     }
@@ -272,12 +280,30 @@ const PoolForm = ({
           </div>
         </div>
         <div className="flex justify-center items-centers">
-          {!connected ? (
-            <WalletMultiButton />
+          {ammIdConfirmed && ammId !== "" ? (
+            <div className="flex justify-center flex-col items-center">
+              <h1 className="text-xl">Your Openbook ID</h1>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(ammId);
+                  toast.success("Market ID Copied!!");
+                }}
+                className="flex text-[#0038ff] cursor-pointer"
+              >
+                <h1 className="">{ammId}</h1>
+                <CopyOutlined />
+              </div>
+            </div>
           ) : (
-            <Form.Item>
-              <ButtonCustom htmlType={"submit"}>Create Pool</ButtonCustom>
-            </Form.Item>
+            <div className="flex justify-center items-centers">
+              {!connected ? (
+                <WalletMultiButton />
+              ) : (
+                <Form.Item>
+                  <ButtonCustom htmlType={"submit"}>Create Pool</ButtonCustom>
+                </Form.Item>
+              )}
+            </div>
           )}
         </div>
       </FormLayout>
