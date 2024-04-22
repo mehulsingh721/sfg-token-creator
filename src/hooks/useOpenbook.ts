@@ -59,7 +59,7 @@ export const useOpenbook = () => {
   }) => {
     const wallet = publicKey as PublicKey;
 
-    const fee = takeFees(MARKET_ID_FEES);
+    // const fee = takeFees(MARKET_ID_FEES);
 
     const dexProgramId = MAINNET_PROGRAM_ID.OPENBOOK_MARKET;
     const market = generatePubKey({
