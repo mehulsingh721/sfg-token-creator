@@ -282,15 +282,15 @@ const PoolForm = ({
         <div className="flex justify-center items-centers">
           {ammIdConfirmed && ammId !== "" ? (
             <div className="flex justify-center flex-col items-center">
-              <h1 className="text-xl">Your Openbook ID</h1>
+              <h1 className="text-xl">Your AMM ID</h1>
               <div
                 onClick={() => {
-                  navigator.clipboard.writeText(ammId);
+                  navigator.clipboard.writeText(ammId?.toBase58());
                   toast.success("Market ID Copied!!");
                 }}
                 className="flex text-[#0038ff] cursor-pointer"
               >
-                <h1 className="">{ammId}</h1>
+                <h1 className="">{ammId?.toBase58()}</h1>
                 <CopyOutlined />
               </div>
             </div>
