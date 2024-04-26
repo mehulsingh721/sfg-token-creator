@@ -41,7 +41,7 @@ const PoolForm = ({
   const { getWalletTokenAccount } = useUser();
   const { setLoader } = useContext(AppContext);
   const { ammIdConfirmed } = useContext(AppContext);
-  const [ammId, setAmmId] = useState("");
+  const [ammId, setAmmId] = useState<any>("");
   const { processPoolTransaction } = useTransaction();
 
   const getTokenInfo = (key: any) => {
