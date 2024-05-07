@@ -140,7 +140,7 @@ const MultiSender = () => {
           )}
           <FormTextArea
             label="Addresses and amount:"
-            placeholder="Put the description of your token"
+            placeholder={`Wallet-Address amount\n For example:\n 9J6akKgzRDWBKyeaDDkbREEUTYVSVVHY8L6qjW7AQkB4 0.2\n 9J6akKgzRDWBKyeaDDkbREEUTYVSVVHY8L6qjW7AQkB4 0.2`}
             name="receipients"
             onChange={(e) => {}}
             required={true}
