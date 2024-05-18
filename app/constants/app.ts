@@ -11,31 +11,38 @@ export const NETWORK_URL =
 export const MINT_FEES = 0.35;
 export const HOLDER_MINT_FEES = 0.2;
 
-export const MARKET_ID_FEES = 0.1;
-export const POOL_CREATION_FEES = 0.1;
-export const POOL_REMOVE_FEES = 0.1;
+export const REVOKE_FEES = 0.05;
+export const HOLDER_REVOKE_FEES = 0;
 
-export const MULTISEND_FEES_100 = 0.05;
+export const MARKET_ID_FEES = 0.1;
+export const POOL_CREATION_FEES = 0.15;
+export const POOL_REMOVE_FEES = 0.1;
+export const HOLDER_POOL_REMOVE_FEES = 0.05;
+
+export const OPENBOOK_FEES = 0.05;
+export const HOLDER_OPENBOOK_FEES = 0;
+
+export const MULTISEND_FEES_100 = 0.01;
 export const MULTISEND_FEES_UNLIMITED = 0.1;
 export const HOLDER_MULTISEND_FEES = 0;
 
-export const SFG_BALANCE_THRESHOLD = 100000;
+export const SFG_BALANCE_THRESHOLD = 200000;
 
 export const OPENBOOK_OPTIONS: any = [
   {
-    amount: "0.4",
+    amount: "0.30",
     eventQueueLength: "11308",
     requestQueueLength: "764",
     orderbookLength: "14524",
   },
   {
-    amount: "1.5",
+    amount: "1.4",
     eventQueueLength: "123244",
     requestQueueLength: "5084",
     orderbookLength: "32452",
   },
   {
-    amount: "2.8",
+    amount: "2.7",
     eventQueueLength: "262108",
     requestQueueLength: "5084",
     orderbookLength: "65500",

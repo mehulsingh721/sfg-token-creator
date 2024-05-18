@@ -279,6 +279,31 @@ const CreateForm = ({ open, setOpen }: any) => {
                 </>
               )}
             </div>
+            <div className="py-5">
+              <div>
+                <h2 className="font-semibold">Token Creation</h2>
+                <p>1. Connect your Solana wallet.</p>
+                <p>2. Click on “Create Token” - New window will pop-up.</p>
+                <p>3. Input SPL token “Name” “Symbol” as per choice.</p>
+                <p>
+                  4. Input “Decimals” (0 for Whitelist Token, 5 for utility
+                  Token, 9 for meme token).
+                </p>
+                <p>5. Input “Supply” of token.</p>
+                <p>
+                  6. Input “Description” of token (Under 200 characters are
+                  recommended).
+                </p>
+                <p>Upload “Image” for your token (PNG or GIF).</p>
+              </div>
+              <div>
+                <h2 className="font-semibold mt-2">Optional Steps: </h2>
+                <p>
+                  Click on “Additional Data” and provide token social media
+                  details. it will store in token metadata.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex justify-center items-centers">

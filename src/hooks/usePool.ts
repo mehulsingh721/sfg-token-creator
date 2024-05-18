@@ -11,13 +11,20 @@ import {
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { getPoolKeys, getWalletTokenAccount } from "../helpers/raydium.helper";
-import { POOL_CREATION_FEES, POOL_REMOVE_FEES } from "@/app/constants/app";
+import {
+  HOLDER_POOL_REMOVE_FEES,
+  POOL_CREATION_FEES,
+  POOL_REMOVE_FEES,
+  SFG_BALANCE_THRESHOLD,
+} from "@/app/constants/app";
 import { useTransaction } from "./useTransaction";
+import { useSpl } from "./useSpl";
 
 export const usePool = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const { takeFees } = useTransaction();
+  const { checkSfgBalance } = useSpl();
 
   const createNewPool = async (
     marketId: PublicKey,
@@ -133,7 +140,15 @@ export const usePool = () => {
       amountIn: Amount_in,
       makeTxVersion: TxVersion.V0,
     });
-    const fee = takeFees(POOL_REMOVE_FEES);
+
+    const sfgBalance = await checkSfgBalance();
+    let fee;
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fee = takeFees(HOLDER_POOL_REMOVE_FEES);
+    } else {
+      fee = takeFees(POOL_REMOVE_FEES);
+    }
+
     const transaction = new Transaction();
     transaction.add(fee);
     lp_ix.innerTransactions.forEach((item) => {
