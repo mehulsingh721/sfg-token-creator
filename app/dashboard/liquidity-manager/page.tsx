@@ -9,6 +9,7 @@ import ActionCard from "../components/ActionCard";
 import CreatePoolModal from "./components/CreatePoolModal";
 import { useState } from "react";
 import RemoveLiquidityModal from "./components/RemoveLiquidityModal";
+import { INSTRUCTION_TEXT_COLOR } from "@/app/constants/app";
 
 const LiquidityManager = () => {
   const [createPoolFormOpen, setCreatePoolFormOpen] = useState(false);
@@ -43,59 +44,177 @@ const LiquidityManager = () => {
         </div>
       </div>
       <div className="px-10 py-10">
-        <h1 className="font-bold text-lg">How to interact with Create Pool.</h1>
-        <div className="mt-5">
+        <h1 className="text-2xl">How to interact with Create Pool.</h1>
+        <div className="mt-3">
           <div>
-            <h2 className="font-semibold">Create Market ID</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>2. Input “Base Token” (SPL Token).</p>
-            <p>3. Input “Quote Coin/Token (SOL/USDC).</p>
-            <p>4. Input “Min Order Size” - Minimum Buy.</p>
-            <p>5. Input “Tick Size” - Minimum Price Change.</p>
+            <h2 className="text-lg">Create Market ID</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. Input “Base Token” (SPL Token).
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Input “Quote Coin/Token (SOL/USDC).
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              4. Input “Min Order Size” - Minimum Buy.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              5. Input “Tick Size” - Minimum Price Change.
+            </p>
           </div>
 
           <div>
-            <h2 className="font-semibold mt-2">Advance Openbook</h2>
-            <p>
+            <h2 className="mt-2 text-lg">Advance Openbook</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
               1. Select the suitable amount you want to pay from the select
               menu.
             </p>
           </div>
 
-          {/* <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - Free</p>
-            <p>Non-$SFG Holders - .01 SOL</p>
-          </div> */}
-        </div>
-
-        <div className="mt-5">
           <div>
-            <h2 className="font-semibold">Create Liquidity Pool</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>2. Input “Base Token” (SPL Token)</p>
-            <p>3. Input “Quote Coin/Token (SOL/USDC).</p>
-            <p>4. Input “Openbook Market ID”.</p>
-            <p>5. Activate “Set Launch Date” (Optional).</p>
-          </div>
-          <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - 0.55 SOL</p>
-            <p>Non-$SFG Holders - 0.55 SOL</p>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - 0.3 SOL
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - 0.4 SOL
+            </p>
           </div>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-6">
           <div>
-            <h2 className="font-semibold">Revoke Liquidity</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>2. Click on “Revoke Liquidity”</p>
-            <p>3. Provide “AMM ID” and click remove liquidity.</p>
+            <h2 className="text-lg">Create Liquidity Pool</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. Input “Base Token” (SPL Token)
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Input “Quote Coin/Token (SOL/USDC).
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              4. Input “Openbook Market ID”.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              5. Activate “Set Launch Date” (Optional).
+            </p>
           </div>
           <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - 0.05 SOL</p>
-            <p>Non-$SFG Holders - 0.1 SOL</p>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - 0.55 SOL
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - 0.55 SOL
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div>
+            <h2 className="text-lg">Revoke Liquidity</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. Click on “Revoke Liquidity”
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Provide “AMM ID” and click remove liquidity.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - 0.05 SOL
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - 0.1 SOL
+            </p>
           </div>
         </div>
       </div>

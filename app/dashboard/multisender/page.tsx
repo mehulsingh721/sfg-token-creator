@@ -1,5 +1,6 @@
 "use client";
 require("@solana/wallet-adapter-react-ui/styles.css");
+import { INSTRUCTION_TEXT_COLOR } from "@/app/constants/app";
 import ButtonCustom from "@/src/components/ui/Button";
 import { FormInput, FormTextArea } from "@/src/components/ui/Form";
 import { useSpl } from "@/src/hooks/useSpl";
@@ -164,48 +165,112 @@ const MultiSender = () => {
       </div>
 
       <div className="px-10 py-10">
-        <h1 className="font-bold text-lg">How to interact with Multisender.</h1>
+        <h1 className="text-2xl">How to interact with Multisender.</h1>
         <div>
-          <p>1. Connect your Solana wallet.</p>
-          <p>
+          <p
+            style={{
+              color: INSTRUCTION_TEXT_COLOR,
+            }}
+          >
+            1. Connect your Solana wallet.
+          </p>
+          <p
+            style={{
+              color: INSTRUCTION_TEXT_COLOR,
+            }}
+          >
             2. Select “Send Solana” for sending Solana Coin from “Token Type”.
           </p>
-          <p>
+          <p
+            style={{
+              color: INSTRUCTION_TEXT_COLOR,
+            }}
+          >
             3. Select “Send SPL Token” for sending any SPL token from “Token
             Type”.
           </p>
         </div>
-        <div className="mt-5">
+        <div className="mt-6">
           <div>
-            <h2 className="font-semibold">
+            <h2 className="text-lg">
               Multi-send Solana Coin (For sending Solana coin to multiple
               addresses)
             </h2>
-            <p>1. Type &lt;Wallet-address&gt; space &lt;amount&gt;.</p>
-            <p>2. For multiple wallets repeat same in every line.</p>
-            <p>3. It supports up to 10 addresses at once to send in bulk.</p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Type &lt;Wallet-address&gt; space &lt;amount&gt;.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. For multiple wallets repeat same in every line.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. It supports up to 10 addresses at once to send in bulk.
+            </p>
           </div>
         </div>
 
         <div className="mt-2">
           <div>
-            <h2 className="font-semibold">
+            <h2 className="text-lg">
               Multi-send SPL Token(For sending SPL Token to multiple addresses)
             </h2>
-            <p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
               1. Input token address and verify token with wallet interaction.
             </p>
-            <p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
               2. After wallet approval, Type Type &lt;Wallet-address&gt; space
               &lt;amount&gt;
             </p>
-            <p>3. For multiple wallets repeat same in every line.</p>
-            <p>4. It supports up to 10 addresses at once to send in bulk.</p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. For multiple wallets repeat same in every line.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              4. It supports up to 10 addresses at once to send in bulk.
+            </p>
           </div>
           <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - Free</p>
-            <p>Non-$SFG Holders - .01 SOL</p>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - Free
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - .01 SOL
+            </p>
           </div>
         </div>
       </div>
