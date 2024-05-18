@@ -10,6 +10,7 @@ import { useState } from "react";
 import RevokeMintAuthorityModal from "./components/RevokeMintAuthorityModal";
 import RevokeFreezeAuthorityModal from "./components/RevokeFreezeAuthorityModal";
 import LoadingOverlay from "../components/Loading/Loading";
+import { INSTRUCTION_TEXT_COLOR } from "@/app/constants/app";
 
 const TokenManager = () => {
   const [createFormOpen, setCreateFormOpen] = useState(false);
@@ -54,18 +55,36 @@ const TokenManager = () => {
         </div>
       </div>
       <div className="px-10 py-10">
-        <h1 className="font-bold text-lg">
+        <h1 className="text-2xl">
           SPL(Solana) Token Lab - Steps to interact with Token Manager.
         </h1>
-        <div className="mt-5">
+        <div className="mt-3">
           <div>
-            <h2 className="font-semibold">Token Creation</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>2. Click on “Create Token” - New window will pop-up.</p>
-            <p>3. Provide details and create token token in 30 seconds.</p>
+            <h2 className="text-lg">Token Creation</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. Click on “Create Token” - New window will pop-up.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Provide details and create token token in 30 seconds.
+            </p>
           </div>
           <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
+            <h2 className="text-lg mt-2">Pricing: </h2>
             <p>For $SFG Holders - .2 SOL (Minimum $SFG holding - 200,000)</p>
             <p>Non-$SFG Holders - .35 SOL</p>
           </div>
@@ -73,31 +92,89 @@ const TokenManager = () => {
 
         <div className="mt-5">
           <div>
-            <h2 className="font-semibold">Remove Mint Authority</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>2. Click on “Revoke Mint Authority” - New window will pop-up</p>
-            <p>3. Provide “Token Address” and click remove.</p>
+            <h2 className="text-lg">Remove Mint Authority</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              2. Click on “Revoke Mint Authority” - New window will pop-up
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Provide “Token Address” and click remove.
+            </p>
           </div>
           <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - Free</p>
-            <p>Non-$SFG Holders - .05 SOL</p>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - Free
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - .05 SOL
+            </p>
           </div>
         </div>
 
         <div className="mt-5">
           <div>
-            <h2 className="font-semibold">Remove Freeze Authority</h2>
-            <p>1. Connect your Solana wallet.</p>
-            <p>
+            <h2 className="text-lg">Remove Freeze Authority</h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              1. Connect your Solana wallet.
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
               2. Click on “Revoke Freeze Authority” - New window will pop-up
             </p>
-            <p>3. Provide “Token Address” and click remove.</p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              3. Provide “Token Address” and click remove.
+            </p>
           </div>
           <div>
-            <h2 className="font-semibold mt-2">Pricing: </h2>
-            <p>For $SFG Holders - Free</p>
-            <p>Non-$SFG Holders - .05 SOL</p>
+            <h2 className="text-lg mt-2">Pricing: </h2>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              For $SFG Holders - Free
+            </p>
+            <p
+              style={{
+                color: INSTRUCTION_TEXT_COLOR,
+              }}
+            >
+              Non-$SFG Holders - .05 SOL
+            </p>
           </div>
         </div>
       </div>

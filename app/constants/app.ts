@@ -19,7 +19,7 @@ export const POOL_CREATION_FEES = 0.15;
 export const POOL_REMOVE_FEES = 0.1;
 export const HOLDER_POOL_REMOVE_FEES = 0.05;
 
-export const OPENBOOK_FEES = 0.05;
+export const OPENBOOK_FEES = 0.1;
 export const HOLDER_OPENBOOK_FEES = 0;
 
 export const MULTISEND_FEES_100 = 0.01;
@@ -30,7 +30,13 @@ export const SFG_BALANCE_THRESHOLD = 200000;
 
 export const OPENBOOK_OPTIONS: any = [
   {
-    amount: "0.30",
+    amount: "0.30 (For SFG Holders) Only",
+    eventQueueLength: "11308",
+    requestQueueLength: "764",
+    orderbookLength: "14524",
+  },
+  {
+    amount: "0.40 (For Non-SFG Holders) Only",
     eventQueueLength: "11308",
     requestQueueLength: "764",
     orderbookLength: "14524",
@@ -110,3 +116,5 @@ export const ORDER_SIZE_OPTIONS: any = [
     supply: "100B",
   },
 ];
+
+export const INSTRUCTION_TEXT_COLOR = "rgb(82 82 82)";
