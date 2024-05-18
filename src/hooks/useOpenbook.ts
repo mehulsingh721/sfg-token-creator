@@ -23,12 +23,20 @@ import {
 } from "@solana/web3.js";
 import { createInitializeAccountInstruction } from "@solana/spl-token";
 import { useTransaction } from "./useTransaction";
-import { ADMIN_WALLET, MARKET_ID_FEES } from "@/app/constants/app";
+import {
+  ADMIN_WALLET,
+  HOLDER_OPENBOOK_FEES,
+  MARKET_ID_FEES,
+  OPENBOOK_FEES,
+  SFG_BALANCE_THRESHOLD,
+} from "@/app/constants/app";
+import { useSpl } from "./useSpl";
 
 export const useOpenbook = () => {
   const { publicKey, signTransaction, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const { processMultipleTransaction, takeFees } = useTransaction();
+  const { checkSfgBalance } = useSpl();
 
   const createMarket = async ({
     baseInfo,
@@ -161,12 +169,21 @@ export const useOpenbook = () => {
       lookupTableCache,
     });
 
+    const sfgBalance = await checkSfgBalance();
+    let fee;
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fee = takeFees(HOLDER_OPENBOOK_FEES);
+    } else {
+      fee = takeFees(OPENBOOK_FEES);
+    }
+
     // for (const innerTransaction of innerTransactions) {
     //   console.log(innerTransaction);
     const innerTransaction1 = innerTransactions[0];
     innerTransaction1.instructions.forEach((tx) => {
       transaction1.add(tx);
     });
+    transaction1.add(fee);
 
     const innerTransaction2 = innerTransactions[1];
     innerTransaction2.instructions.forEach((tx) => {

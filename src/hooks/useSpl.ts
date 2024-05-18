@@ -42,9 +42,11 @@ import {
   ADMIN_WALLET,
   HOLDER_MINT_FEES,
   HOLDER_MULTISEND_FEES,
+  HOLDER_REVOKE_FEES,
   MINT_FEES,
   MULTISEND_FEES_100,
   MULTISEND_FEES_UNLIMITED,
+  REVOKE_FEES,
   SFG_BALANCE_THRESHOLD,
 } from "@/app/constants/app";
 import { toast } from "react-toastify";
@@ -160,7 +162,17 @@ export const useSpl = () => {
       TOKEN_PROGRAM_ID
     );
 
+    const sfgBalance = await checkSfgBalance();
+    let fee;
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fee = takeFees(HOLDER_REVOKE_FEES);
+    } else {
+      fee = takeFees(REVOKE_FEES);
+    }
+
+    transaction.add(fee);
     transaction.add(revokeAuthorityInstruction);
+
     try {
       const signature = await sendTransaction(transaction, connection);
       return signature;
@@ -182,6 +194,15 @@ export const useSpl = () => {
       TOKEN_PROGRAM_ID
     );
 
+    const sfgBalance = await checkSfgBalance();
+    let fee;
+    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+      fee = takeFees(HOLDER_REVOKE_FEES);
+    } else {
+      fee = takeFees(REVOKE_FEES);
+    }
+
+    transaction.add(fee);
     transaction.add(revokeAuthorityInstruction);
 
     try {
@@ -458,6 +479,7 @@ export const useSpl = () => {
     getAccountInfo,
     getTokens,
     getMetadata,
+    checkSfgBalance,
   };
 };
 
