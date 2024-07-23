@@ -96,13 +96,13 @@ export const useSpl = () => {
         },
       }
     );
-    const sfgBalance = await checkSfgBalance();
-    let fee;
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fee = takeFees(HOLDER_MINT_FEES);
-    } else {
-      fee = takeFees(MINT_FEES);
-    }
+    // const sfgBalance = await checkSfgBalance();
+    // let fee;
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fee = takeFees(HOLDER_MINT_FEES);
+    // } else {
+    //   fee = takeFees(MINT_FEES);
+    // }
 
     const createNewTokenTransaction = new Transaction().add(
       SystemProgram.createAccount({
@@ -131,8 +131,8 @@ export const useSpl = () => {
         publicKey as PublicKey,
         tokenInfo.supply * Math.pow(10, tokenInfo.decimals)
       ),
-      createMetadataInstruction,
-      fee
+      createMetadataInstruction
+      // fee
     );
 
     try {
@@ -162,15 +162,15 @@ export const useSpl = () => {
       TOKEN_PROGRAM_ID
     );
 
-    const sfgBalance = await checkSfgBalance();
-    let fee;
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fee = takeFees(HOLDER_REVOKE_FEES);
-    } else {
-      fee = takeFees(REVOKE_FEES);
-    }
+    // const sfgBalance = await checkSfgBalance();
+    // let fee;
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fee = takeFees(HOLDER_REVOKE_FEES);
+    // } else {
+    //   fee = takeFees(REVOKE_FEES);
+    // }
 
-    transaction.add(fee);
+    // transaction.add(fee);
     transaction.add(revokeAuthorityInstruction);
 
     try {
@@ -194,15 +194,15 @@ export const useSpl = () => {
       TOKEN_PROGRAM_ID
     );
 
-    const sfgBalance = await checkSfgBalance();
-    let fee;
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fee = takeFees(HOLDER_REVOKE_FEES);
-    } else {
-      fee = takeFees(REVOKE_FEES);
-    }
+    // const sfgBalance = await checkSfgBalance();
+    // let fee;
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fee = takeFees(HOLDER_REVOKE_FEES);
+    // } else {
+    //   fee = takeFees(REVOKE_FEES);
+    // }
 
-    transaction.add(fee);
+    // transaction.add(fee);
     transaction.add(revokeAuthorityInstruction);
 
     try {
@@ -225,22 +225,22 @@ export const useSpl = () => {
       tokenInfo = await getMint(connection, tokenAddress as any);
       decimals = tokenInfo.decimals;
     }
-    const sfgBalance = await checkSfgBalance();
-    let fees;
+    // const sfgBalance = await checkSfgBalance();
+    // let fees;
 
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fees = takeFees(HOLDER_MULTISEND_FEES);
-    } else {
-      if (recipients.length <= 100) {
-        fees = takeFees(MULTISEND_FEES_100);
-      } else {
-        fees = takeFees(MULTISEND_FEES_UNLIMITED);
-      }
-    }
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fees = takeFees(HOLDER_MULTISEND_FEES);
+    // } else {
+    //   if (recipients.length <= 100) {
+    //     fees = takeFees(MULTISEND_FEES_100);
+    //   } else {
+    //     fees = takeFees(MULTISEND_FEES_UNLIMITED);
+    //   }
+    // }
 
     const transaction = new Transaction();
 
-    transaction.add(fees);
+    // transaction.add(fees);
 
     for (const recipient of recipients) {
       if (tokenType === "SPL") {

@@ -61,9 +61,9 @@ export const usePool = () => {
           "7YttLkHDoNj9wyDur5pM1ejNaAvT9X4eqaYcHQqtj2G5"
         ), // only mainnet use this
       });
-    const fee = takeFees(POOL_CREATION_FEES);
+    // const fee = takeFees(POOL_CREATION_FEES);
     const transaction = new Transaction();
-    transaction.add(fee);
+    // transaction.add(fee);
     for (const index in initPoolInstructions.innerTransactions) {
       const instruction = initPoolInstructions.innerTransactions[index];
       instruction.instructions.forEach((item) => {
@@ -141,16 +141,16 @@ export const usePool = () => {
       makeTxVersion: TxVersion.V0,
     });
 
-    const sfgBalance = await checkSfgBalance();
-    let fee;
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fee = takeFees(HOLDER_POOL_REMOVE_FEES);
-    } else {
-      fee = takeFees(POOL_REMOVE_FEES);
-    }
+    // const sfgBalance = await checkSfgBalance();
+    // let fee;
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fee = takeFees(HOLDER_POOL_REMOVE_FEES);
+    // } else {
+    //   fee = takeFees(POOL_REMOVE_FEES);
+    // }
 
     const transaction = new Transaction();
-    transaction.add(fee);
+    // transaction.add(fee);
     lp_ix.innerTransactions.forEach((item) => {
       item.instructions.forEach((instruction) => {
         transaction.add(instruction);

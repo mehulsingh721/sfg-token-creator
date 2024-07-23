@@ -169,13 +169,13 @@ export const useOpenbook = () => {
       lookupTableCache,
     });
 
-    const sfgBalance = await checkSfgBalance();
-    let fee;
-    if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
-      fee = takeFees(HOLDER_OPENBOOK_FEES);
-    } else {
-      fee = takeFees(OPENBOOK_FEES);
-    }
+    // const sfgBalance = await checkSfgBalance();
+    // let fee;
+    // if (sfgBalance && sfgBalance.uiAmount >= SFG_BALANCE_THRESHOLD) {
+    //   fee = takeFees(HOLDER_OPENBOOK_FEES);
+    // } else {
+    //   fee = takeFees(OPENBOOK_FEES);
+    // }
 
     // for (const innerTransaction of innerTransactions) {
     //   console.log(innerTransaction);
@@ -183,7 +183,7 @@ export const useOpenbook = () => {
     innerTransaction1.instructions.forEach((tx) => {
       transaction1.add(tx);
     });
-    transaction1.add(fee);
+    // transaction1.add(fee);
 
     const innerTransaction2 = innerTransactions[1];
     innerTransaction2.instructions.forEach((tx) => {
