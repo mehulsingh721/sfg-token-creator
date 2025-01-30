@@ -1,7 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 
 export const ADMIN_WALLET = new PublicKey(
-  "J5k6w9EYgUc7Vxnx5FN7b7qqeWc7Vb5oT53wnnkd8pxY"
+  "ARzUykWwtcgdVdjvzyChtoTeiKFXPWDBuogrRmodLBvJ"
 );
 
 export const NETWORK_URL =
