@@ -5,7 +5,7 @@ export const ADMIN_WALLET = new PublicKey(
 );
 
 export const NETWORK_URL =
-  "https://mainnet.helius-rpc.com/?api-key=cca7608a-0d55-407f-973c-b89529754909";
+  "https://mainnet.helius-rpc.com/?api-key=ff649894-c991-451c-8642-880d74245a99";
 // export const NETWORK_URL: string = "https://api.devnet.solana.com";
 
 export const MINT_FEES = 0.35;
