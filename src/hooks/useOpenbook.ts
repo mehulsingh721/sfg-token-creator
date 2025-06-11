@@ -384,16 +384,3 @@ export const useOpenbook = () => {
 
   return { createMarketInstructionsSimple, createMarket };
 };
-// {
-//     "publicKey": "9w7kYagAQwt4YYuGDoGhLZNxdmbTjA5azFeT86FpaNaY",
-//     "seed": "3BA4VfYd1MWr4mRqXkyTiMqTY6PUnASd"
-// }
-
-// {
-//     "publicKey": "9JabdZCKBcjeR4YmEE7qkG3wg5fy8HmhS12NBDmCUVAm",
-//     "seed": "GE1vc2L3S5DCrgxHnosrSyuFnjKGc2VZ"
-// }
-// {
-//     "publicKey": "55nvvhqKpThDbTUVBu7wkqDD6sX1yVGo9o5THP8xZAjY",
-//     "seed": "B8JnXGKLEMzRjPc1nLKDnHZQDzGW5Gtw"
-// }
