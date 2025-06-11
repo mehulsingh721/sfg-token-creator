@@ -1,11 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
 
 export const ADMIN_WALLET = new PublicKey(
-  "ARzUykWwtcgdVdjvzyChtoTeiKFXPWDBuogrRmodLBvJ"
+  "ALrBqpN6AXa4ZPLnrZoFpfnHEV8dofbpqkdBUGHYJ9ew"
 );
 
 export const NETWORK_URL =
-  "https://mainnet.helius-rpc.com/?api-key=ff649894-c991-451c-8642-880d74245a99";
+  "https://api.mainnet-beta.solana.com";
 // export const NETWORK_URL: string = "https://api.devnet.solana.com";
 
 export const MINT_FEES = 0.35;
