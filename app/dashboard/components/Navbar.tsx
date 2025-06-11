@@ -64,7 +64,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-5">
-        <div className="">
+        {/* <div className="">
           <ButtonCustom htmlType={""}>
             <a
               href="https://raydium.io/swap/?inputCurrency=sol&outputCurrency=9J6akKgzRDWBKyeaDDkbREEUTYVSVVHY8L6qjW7AQkB4&fixed=in"
@@ -73,7 +73,7 @@ const Navbar = () => {
               Buy $SFG
             </a>
           </ButtonCustom>
-        </div>
+        </div> */}
         {/* <Input
                       size={"middle"}
                       placeholder="Search..."
