@@ -1,4 +1,4 @@
-# 🧪 S-Forge Labs – Solana Token Creator
+# [🧪 S-Forge Labs – Solana Token Creator](https://sfg-token-creator.vercel.app/dashboard/token-manager)
 
 S-Forge Labs presents a clean, blazing-fast, and developer-friendly Solana Token Creator. Designed for Web3 builders, DeFi experimenters, and token creators of all levels, this tool streamlines the process of launching SPL tokens on the Solana blockchain with a **one-click interface**.
 
